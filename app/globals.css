@@ -1,0 +1,330 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 241 245 249; /* #f1f5f9 - Alt Background (clair) */
+  --foreground: 31 41 55; /* #1f2937 - Primary Text */
+  --card: 255 255 255; /* Cartes blanches en mode clair */
+  --card-foreground: 31 41 55;
+  --popover: 255 255 255;
+  --popover-foreground: 31 41 55;
+  --primary: 44 62 145; /* #2c3e91 - Royal Blue */
+  --primary-foreground: 248 250 252;
+  --secondary: 219 228 240; /* #dbe4f0 - Light Blue-Gray */
+  --secondary-foreground: 31 41 55;
+  --muted: 241 245 249;
+  --muted-foreground: 100 116 139;
+  --accent: 44 62 145; /* #2c3e91 - Royal Blue */
+  --accent-foreground: 248 250 252;
+  --destructive: 231 76 60; /* #e74c3c - Soft Error Red */
+  --destructive-foreground: 248 250 252;
+  --border: 219 228 240;
+  --input: 219 228 240;
+  --ring: 44 62 145;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 15 23 42; /* #0f172a - Dark Background (sombre) */
+  --foreground: 248 250 252; /* #f8fafc - Dark Base Text */
+  --card: 31 42 68; /* #1f2a44 - Cartes sombres en mode sombre */
+  --card-foreground: 248 250 252; /* Texte clair sur cartes sombres */
+  --popover: 31 42 68;
+  --popover-foreground: 248 250 252;
+  --primary: 44 62 145; /* #2c3e91 - Royal Blue (reste identique) */
+  --primary-foreground: 248 250 252;
+  --secondary: 31 42 68; /* #1f2a44 - Blue-Gray Dark */
+  --secondary-foreground: 248 250 252;
+  --muted: 31 42 68;
+  --muted-foreground: 148 163 184;
+  --accent: 44 62 145; /* #2c3e91 - Royal Blue */
+  --accent-foreground: 248 250 252;
+  --destructive: 231 76 60; /* #e74c3c - Soft Error Red (reste identique) */
+  --destructive-foreground: 248 250 252;
+  --border: 31 42 68;
+  --input: 31 42 68;
+  --ring: 44 62 145;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Classes utilitaires pour l'harmonie NOVA - PALETTE STRICTE BLEU ROYAL + BLANC/GRIS */
+.royal-blue {
+  color: #2c3e91;
+}
+
+.bg-royal-blue {
+  background-color: #2c3e91;
+}
+
+.primary-text {
+  color: #1f2937;
+}
+
+.bg-primary-text {
+  background-color: #1f2937;
+}
+
+.light-blue-gray {
+  color: #dbe4f0;
+}
+
+.bg-light-blue-gray {
+  background-color: #dbe4f0;
+}
+
+.alt-background {
+  background-color: #f1f5f9;
+}
+
+.success-green {
+  color: #27ae60;
+}
+
+.bg-success-green {
+  background-color: #27ae60;
+}
+
+.soft-error-red {
+  color: #e74c3c;
+}
+
+.bg-soft-error-red {
+  background-color: #e74c3c;
+}
+
+/* Mode sombre - Couleurs normales */
+.dark .bg-white {
+  background-color: #1f2a44; /* Blue-Gray Dark */
+}
+
+.dark .text-gray-800 {
+  color: #f8fafc; /* Dark Base Text */
+}
+
+.dark .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .border-gray-200 {
+  border-color: #1f2a44;
+}
+
+.dark .border-gray-300 {
+  border-color: #374151;
+}
+
+/* Composants spécifiques */
+.dark .bg-gray-100 {
+  background-color: #0f172a; /* Background sombre */
+}
+
+.dark .bg-gray-50 {
+  background-color: #1e293b; /* Backgrounds sombres pour les composants */
+}
+
+/* ===== CORRECTION FORCÉE DES COULEURS NOVA ===== */
+
+/* ===== CORRECTION FORCÉE DES COULEURS NOVA - DROPDOWNS ===== */
+
+/* Forcer les couleurs des Select Items - PLUS SPÉCIFIQUE */
+[data-radix-select-content] [data-radix-select-item],
+.select-item,
+[role="option"] {
+  color: #1f2937 !important; /* primary-text */
+  background-color: transparent !important;
+}
+
+.dark [data-radix-select-content] [data-radix-select-item],
+.dark .select-item,
+.dark [role="option"] {
+  color: #f8fafc !important; /* dark-base-text */
+}
+
+/* Hover/Focus/Highlighted des Select Items - ROYAL BLUE UNIQUEMENT */
+[data-radix-select-content] [data-radix-select-item]:hover,
+[data-radix-select-content] [data-radix-select-item]:focus,
+[data-radix-select-content] [data-radix-select-item][data-highlighted],
+[data-radix-select-content] [data-radix-select-item][data-state="checked"],
+.select-item:hover,
+.select-item:focus,
+[role="option"]:hover,
+[role="option"]:focus,
+[role="option"][data-highlighted],
+[role="option"][aria-selected="true"] {
+  background-color: rgba(44, 62, 145, 0.1) !important; /* royal-blue/10 */
+  color: #1f2937 !important; /* primary-text */
+}
+
+.dark [data-radix-select-content] [data-radix-select-item]:hover,
+.dark [data-radix-select-content] [data-radix-select-item]:focus,
+.dark [data-radix-select-content] [data-radix-select-item][data-highlighted],
+.dark [data-radix-select-content] [data-radix-select-item][data-state="checked"],
+.dark .select-item:hover,
+.dark .select-item:focus,
+.dark [role="option"]:hover,
+.dark [role="option"]:focus,
+.dark [role="option"][data-highlighted],
+.dark [role="option"][aria-selected="true"] {
+  background-color: rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
+  color: #f8fafc !important; /* dark-base-text */
+}
+
+/* Supprimer TOUTES les couleurs jaunes/ambre du système */
+[data-highlighted] {
+  background-color: rgba(44, 62, 145, 0.1) !important;
+}
+
+.dark [data-highlighted] {
+  background-color: rgba(44, 62, 145, 0.2) !important;
+}
+
+/* Forcer les couleurs des éléments sélectionnés */
+[aria-selected="true"],
+[data-state="checked"] {
+  background-color: rgba(44, 62, 145, 0.1) !important;
+  color: #1f2937 !important;
+}
+
+.dark [aria-selected="true"],
+.dark [data-state="checked"] {
+  background-color: rgba(44, 62, 145, 0.2) !important;
+  color: #f8fafc !important;
+}
+
+/* Forcer les couleurs des Input/Textarea - ROYAL BLUE FOCUS */
+input:focus,
+textarea:focus,
+input:focus-visible,
+textarea:focus-visible {
+  outline: none !important;
+  border-color: #2c3e91 !important; /* royal-blue */
+  box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
+}
+
+/* Supprimer les couleurs par défaut du navigateur */
+input:focus,
+textarea:focus {
+  outline-color: #2c3e91 !important;
+  outline-offset: 2px !important;
+}
+
+/* Forcer les couleurs des boutons outline */
+button[data-variant="outline"]:hover {
+  background-color: rgba(44, 62, 145, 0.1) !important;
+  border-color: #2c3e91 !important;
+  color: #2c3e91 !important;
+}
+
+.dark button[data-variant="outline"]:hover {
+  background-color: rgba(44, 62, 145, 0.2) !important;
+  border-color: #2c3e91 !important;
+  color: #2c3e91 !important;
+}
+
+/* Supprimer les couleurs système par défaut */
+* {
+  accent-color: #2c3e91 !important; /* Royal Blue pour tous les éléments système */
+}
+
+/* Forcer les couleurs des checkboxes et radios */
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: #2c3e91 !important;
+  border-color: #2c3e91 !important;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+  box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important;
+}
+
+/* Forcer les couleurs des liens */
+a:hover {
+  color: #2c3e91 !important;
+}
+
+.dark a:hover {
+  color: #2c3e91 !important;
+}
+
+/* Supprimer les couleurs de sélection par défaut */
+::selection {
+  background-color: rgba(44, 62, 145, 0.2) !important;
+  color: #1f2937 !important;
+}
+
+.dark ::selection {
+  background-color: rgba(44, 62, 145, 0.3) !important;
+  color: #f8fafc !important;
+}
+
+/* Forcer les couleurs des scrollbars */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 62, 145, 0.3) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(44, 62, 145, 0.5) !important;
+}
+
+/* ===== CORRECTION FORCÉE DES BORDURES DROPDOWN ===== */
+
+/* Forcer les bordures des Select Triggers */
+[data-radix-select-trigger],
+.select-trigger,
+button[role="combobox"] {
+  border-color: rgba(219, 228, 240, 0.2) !important; /* light-blue-gray/20 par défaut */
+}
+
+.dark [data-radix-select-trigger],
+.dark .select-trigger,
+.dark button[role="combobox"] {
+  border-color: rgba(44, 62, 145, 0.3) !important; /* royal-blue/30 en mode sombre */
+}
+
+/* Focus/Active des Select Triggers - ROYAL BLUE UNIQUEMENT */
+[data-radix-select-trigger]:focus,
+[data-radix-select-trigger]:focus-visible,
+[data-radix-select-trigger][data-state="open"],
+.select-trigger:focus,
+.select-trigger:focus-visible,
+button[role="combobox"]:focus,
+button[role="combobox"]:focus-visible,
+button[role="combobox"][aria-expanded="true"] {
+  border-color: #2c3e91 !important; /* royal-blue */
+  box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
+  outline: none !important;
+}
+
+.dark [data-radix-select-trigger]:focus,
+.dark [data-radix-select-trigger]:focus-visible,
+.dark [data-radix-select-trigger][data-state="open"],
+.dark .select-trigger:focus,
+.dark .select-trigger:focus-visible,
+.dark button[role="combobox"]:focus,
+.dark button[role="combobox"]:focus-visible,
+.dark button[role="combobox"][aria-expanded="true"] {
+  border-color: #2c3e91 !important; /* royal-blue */
+  box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
+}
+
+/* Supprimer toutes les bordures jaunes/ambre */
+*:focus,
+*:focus-visible {
+  outline-color: #2c3e91 !important;
+}
+
+/* Forcer les couleurs des éléments avec état ouvert */
+[data-state="open"],
+[aria-expanded="true"] {
+  border-color: #2c3e91 !important;
+}
