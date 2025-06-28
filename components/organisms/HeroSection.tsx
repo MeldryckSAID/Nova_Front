@@ -6,7 +6,6 @@ import Link from "next/link"
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [imageLoaded, setImageLoaded] = useState(false)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -49,7 +48,7 @@ export function HeroSection() {
             de nos experts.
           </p>
           <Link href="/connexion">
-            <button className="bg-white text-royal-blue px-8 py-3 rounded-lg font-semibold hover:bg-light-blue-gray/90 hover:text-royal-blue transition-all transform hover:scale-105 shadow-lg border border-white/20">
+            <button className="bg-white text-royal-blue dark:text-white px-8 py-3 rounded-lg font-semibold hover:bg-light-blue-gray/90 hover:text-royal-blue transition-all transform hover:scale-105 shadow-lg border border-white/20">
               Commencer maintenant
             </button>
           </Link>
@@ -66,36 +65,19 @@ export function HeroSection() {
               {/* Effet de glow derrière l'image */}
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-blue-300/20 rounded-3xl blur-xl scale-110"></div>
 
-              {/* Container principal */}
+              {/* Container principal avec image locale */}
               <div className="relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
-                {/* Si l'image ne charge pas, on affiche un fallback */}
-                {!imageLoaded && (
-                  <div className="w-full h-80 max-w-md mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <div className="text-6xl mb-4">📚</div>
-                      <h3 className="text-xl font-semibold mb-2">
-                        Apprentissage en ligne
-                      </h3>
-                      <p className="text-blue-100">
-                        Connectez-vous avec nos experts
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <img
+                <Image
                   src="/images/learning-illustration.png"
                   alt="Illustration d'apprentissage en ligne"
-                  className={`w-full h-auto max-w-md mx-auto transition-opacity duration-500 ${
-                    imageLoaded ? "opacity-100" : "opacity-0 absolute inset-0"
-                  }`}
-                  onLoad={() => setImageLoaded(true)}
-                  onError={() => setImageLoaded(false)}
-                  style={{ maxWidth: "400px" }}
+                  width={400}
+                  height={320}
+                  className="w-full h-auto max-w-md mx-auto"
+                  priority
                 />
               </div>
 
-              {/* Particules flottantes - PLUS DE JAUNE */}
+              {/* Particules flottantes */}
               <div className="absolute -top-4 -left-4 w-3 h-3 bg-white rounded-full animate-pulse"></div>
               <div className="absolute -bottom-6 -right-6 w-4 h-4 bg-blue-300 rounded-full animate-bounce"></div>
               <div className="absolute top-1/2 -left-8 w-2 h-2 bg-white rounded-full animate-ping"></div>

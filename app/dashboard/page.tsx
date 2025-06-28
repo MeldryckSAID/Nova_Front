@@ -71,7 +71,7 @@ export default function DashboardPage() {
               <div></div>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
-                  <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={32} height={32} className="w-24 h-24 mr-3" />
+                  <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={32} height={32} className="w-8 h-8 mr-3" />
                   <h1 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">Bonjour {user.name}</h1>
                 </div>
                 <Avatar src={user.avatar || "/images/avatars/woman-1.svg"} alt={user.name} size="lg" />
@@ -210,10 +210,10 @@ export default function DashboardPage() {
                                   {canJoinMeeting && (
                                     <Button
                                       size="sm"
-                                      onClick={() => router.push(`/meeting/${booking.id}`)}
+                                      onClick={() => router.push("/")}
                                       className="bg-success-green hover:bg-success-green/90 text-white"
                                     >
-                                      🎥 Rejoindre
+                                      🎥 Bientôt disponible
                                     </Button>
                                   )}
                                 </div>
