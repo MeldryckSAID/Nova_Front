@@ -248,10 +248,10 @@ export default function HelperDashboardPage() {
                                   {canJoinMeeting && (
                                     <Button
                                       size="sm"
-                                      onClick={() => router.push(`/meeting/${request.id}`)}
+                                      onClick={() => router.push("/")}
                                       className="bg-success-green hover:bg-success-green/90 text-white"
                                     >
-                                      🎥 Rejoindre
+                                      🎥 Bientôt disponible
                                     </Button>
                                   )}
                                 </div>
