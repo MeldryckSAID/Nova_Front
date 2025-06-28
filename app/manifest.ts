@@ -1,10 +1,11 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "NOVA - Apprendre Echanger Progresser",
+    name: "NOVA",
     short_name: "NOVA",
-    description: "Une application progressive pour apprendre, échanger et progresser avec des experts",
+    description:
+      "Une application progressive pour apprendre, échanger et progresser avec des experts",
     start_url: "/",
     display: "standalone",
     background_color: "#2c3e91",
@@ -30,6 +31,11 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     icons: [
+      {
+        src: "/favicon.ico",
+        sizes: "16x16 32x32",
+        type: "image/x-icon",
+      },
       {
         src: "/icon-72x72.png",
         sizes: "72x72",
@@ -79,7 +85,7 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/logo.svg",
+        src: "/images/nova_logo.svg",
         sizes: "any",
         type: "image/svg+xml",
         purpose: "any",
@@ -113,5 +119,5 @@ export default function manifest(): MetadataRoute.Manifest {
     edge_side_panel: {
       preferred_width: 400,
     },
-  }
+  };
 }
