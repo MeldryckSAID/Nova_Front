@@ -25,15 +25,28 @@ export function HeroSection() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
         <div>
           <div className="flex items-center mb-6">
-            <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={320} height={320} className="w-80 h-80 mr-6" />
+            <Image
+              src="/images/nova_logo.svg"
+              alt="NOVA Logo"
+              width={320}
+              height={320}
+              className="w-80 h-80 mr-6"
+            />
           </div>
           <div className="text-3xl space-y-3 mb-8">
-            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">Apprendre</p>
-            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">Echanger</p>
-            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">Progresser</p>
+            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">
+              Apprendre
+            </p>
+            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">
+              Echanger
+            </p>
+            <p className="transform transition-all duration-500 hover:translate-x-2 hover:text-white">
+              Progresser
+            </p>
           </div>
           <p className="text-xl text-blue-200 mb-8 max-w-lg">
-            Rejoignez notre communauté d'apprentissage et progressez avec l'aide de nos experts.
+            Rejoignez notre communauté d'apprentissage et progressez avec l'aide
+            de nos experts.
           </p>
           <Link href="/connexion">
             <button className="bg-white text-royal-blue px-8 py-3 rounded-lg font-semibold hover:bg-light-blue-gray/90 hover:text-royal-blue transition-all transform hover:scale-105 shadow-lg border border-white/20">
@@ -60,14 +73,18 @@ export function HeroSection() {
                   <div className="w-full h-80 max-w-md mx-auto bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center">
                     <div className="text-center text-white">
                       <div className="text-6xl mb-4">📚</div>
-                      <h3 className="text-xl font-semibold mb-2">Apprentissage en ligne</h3>
-                      <p className="text-blue-100">Connectez-vous avec nos experts</p>
+                      <h3 className="text-xl font-semibold mb-2">
+                        Apprentissage en ligne
+                      </h3>
+                      <p className="text-blue-100">
+                        Connectez-vous avec nos experts
+                      </p>
                     </div>
                   </div>
                 )}
 
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Illu-xvQpKOOL5HUSHxiKJM3Se1fyHY5NzE.png"
+                  src="/images/learning-illustration.png"
                   alt="Illustration d'apprentissage en ligne"
                   className={`w-full h-auto max-w-md mx-auto transition-opacity duration-500 ${
                     imageLoaded ? "opacity-100" : "opacity-0 absolute inset-0"
@@ -87,5 +104,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

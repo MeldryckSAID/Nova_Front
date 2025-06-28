@@ -67,7 +67,7 @@ export default function HelperDashboardPage() {
               <div></div>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
-                  <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={32} height={32} className="w-8 h-8 mr-3" />
+                  <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={32} height={32} className="w-24 h-24 mr-3" />
                   <h1 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">
                     Dashboard Helper - {helper.name}
                   </h1>
