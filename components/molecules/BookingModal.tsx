@@ -115,13 +115,19 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <Alert variant="destructive" className="bg-soft-error-red/10 border-soft-error-red/20 text-soft-error-red">
+            <Alert
+              variant="destructive"
+              className="bg-soft-error-red/10 border-soft-error-red/20 text-soft-error-red"
+            >
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
           <div>
-            <Label htmlFor="timeSlot" className="text-primary-text dark:text-dark-base-text">
+            <Label
+              htmlFor="timeSlot"
+              className="text-primary-text dark:text-dark-base-text"
+            >
               Créneau disponible *
             </Label>
             <Select value={selectedSlot} onValueChange={setSelectedSlot}>
@@ -144,7 +150,10 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
 
           {selectedTimeSlot && (
             <div>
-              <Label htmlFor="date" className="text-primary-text dark:text-dark-base-text">
+              <Label
+                htmlFor="date"
+                className="text-primary-text dark:text-dark-base-text"
+              >
                 Date souhaitée *
               </Label>
               <Select value={requestedDate} onValueChange={setRequestedDate}>
@@ -172,7 +181,10 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
           )}
 
           <div>
-            <Label htmlFor="message" className="text-primary-text dark:text-dark-base-text">
+            <Label
+              htmlFor="message"
+              className="text-primary-text dark:text-dark-base-text"
+            >
               Message (optionnel)
             </Label>
             <Textarea
@@ -186,14 +198,18 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
           </div>
 
           <div className="flex space-x-2">
-            <Button type="submit" disabled={loading} className="flex-1 bg-royal-blue hover:bg-royal-blue/90 text-white">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="flex-1 bg-royal-blue hover:bg-royal-blue/90 text-white"
+            >
               {loading ? "Envoi..." : "Envoyer la demande"}
             </Button>
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsOpen(false)}
-              className="border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10"
+              className=" bg-royal-blue hover:bg-royal-blue/90 text-white  dark:hover:bg-royal-blue/20 dark:bg-royal-blue  border-royal-blue/30  dark:text-dark-base-text"
             >
               Annuler
             </Button>
@@ -201,5 +217,5 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

@@ -142,7 +142,9 @@ export default function ProfilePage() {
           <div className="max-w-4xl mx-auto px-6">
             <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-3xl text-royal-blue dark:text-white">Mon Profil</CardTitle>
+                <CardTitle className="text-3xl text-royal-blue dark:text-white">
+                  Mon Profil
+                </CardTitle>
                 {!isEditing && (
                   <Button
                     onClick={() => setIsEditing(true)}
@@ -172,8 +174,12 @@ export default function ProfilePage() {
                     <div className="flex items-center space-x-6">
                       <Avatar src={user.avatar} alt={user.name} size="lg" />
                       <div>
-                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">{user.name}</h2>
-                        <p className="text-primary-text/70 dark:text-dark-base-text/70">{user.email}</p>
+                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">
+                          {user.name}
+                        </h2>
+                        <p className="text-primary-text/70 dark:text-dark-base-text/70">
+                          {user.email}
+                        </p>
                       </div>
                     </div>
 
@@ -192,14 +198,16 @@ export default function ProfilePage() {
                       </h3>
                       {user.specialties && user.specialties.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
-                          {user.specialties.map((specialty: string, index: number) => (
-                            <span
-                              key={index}
-                              className="inline-block px-3 py-1 bg-royal-blue text-white border border-royal-blue/20 rounded-full text-sm"
-                            >
-                              {specialty}
-                            </span>
-                          ))}
+                          {user.specialties.map(
+                            (specialty: string, index: number) => (
+                              <span
+                                key={index}
+                                className="inline-block px-3 py-1 bg-royal-blue text-white border border-royal-blue/20 rounded-full text-sm"
+                              >
+                                {specialty}
+                              </span>
+                            )
+                          )}
                         </div>
                       ) : (
                         <p className="text-primary-text/70 dark:text-dark-base-text/70 bg-light-blue-gray/10 dark:bg-royal-blue/10 p-4 rounded-lg">
@@ -211,7 +219,10 @@ export default function ProfilePage() {
                 ) : (
                   <div className="space-y-6">
                     <div>
-                      <Label htmlFor="name" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="name"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Nom complet *
                       </Label>
                       <Input
@@ -223,7 +234,10 @@ export default function ProfilePage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="email" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="email"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Email *
                       </Label>
                       <Input
@@ -239,11 +253,18 @@ export default function ProfilePage() {
                       label="Avatar"
                       selectedAvatar={formData.avatar}
                       onAvatarSelect={handleChange("avatar")}
-                      error={!formData.avatar ? "Veuillez choisir un avatar" : undefined}
+                      error={
+                        !formData.avatar
+                          ? "Veuillez choisir un avatar"
+                          : undefined
+                      }
                     />
 
                     <div>
-                      <Label htmlFor="needs" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="needs"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Vos besoins (facultatif)
                       </Label>
                       <Textarea
@@ -264,7 +285,11 @@ export default function ProfilePage() {
                       placeholder="Sélectionnez vos domaines d'intérêt..."
                       minSelection={1}
                       maxSelection={5}
-                      error={formData.specialties.length === 0 ? "Sélectionnez au moins une spécialité" : undefined}
+                      error={
+                        formData.specialties.length === 0
+                          ? "Sélectionnez au moins une spécialité"
+                          : undefined
+                      }
                     />
 
                     <div className="flex space-x-4 pt-6">
@@ -279,7 +304,7 @@ export default function ProfilePage() {
                         variant="outline"
                         onClick={handleCancel}
                         disabled={loading}
-                        className="border-light-blue-gray/30 text-primary-text dark:text-dark-base-text hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10 bg-white dark:bg-blue-gray-dark"
+                        className="border-royal-blue/30 text-royal-blue hover:bg-royal-blue/10  dark:hover:bg-royal-blue/20 dark:bg-royal-blue dark:text-white "
                       >
                         Annuler
                       </Button>
@@ -293,5 +318,5 @@ export default function ProfilePage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

@@ -160,7 +160,9 @@ export default function HelperProfilePage() {
           <div className="max-w-4xl mx-auto px-6">
             <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-3xl text-primary-text dark:text-dark-base-text">Mon Profil Helper</CardTitle>
+                <CardTitle className="text-3xl text-primary-text dark:text-dark-base-text">
+                  Mon Profil Helper
+                </CardTitle>
                 {!isEditing && (
                   <Button
                     onClick={() => setIsEditing(true)}
@@ -190,8 +192,12 @@ export default function HelperProfilePage() {
                     <div className="flex items-center space-x-6">
                       <Avatar src={helper.avatar} alt={helper.name} size="lg" />
                       <div>
-                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">{helper.name}</h2>
-                        <p className="text-primary-text/70 dark:text-dark-base-text/70">{helper.email}</p>
+                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">
+                          {helper.name}
+                        </h2>
+                        <p className="text-primary-text/70 dark:text-dark-base-text/70">
+                          {helper.email}
+                        </p>
                         <div className="flex items-center space-x-4 mt-2">
                           <Badge className="bg-royal-blue/20 text-royal-blue border-royal-blue/30">
                             {helper.totalSessions || 0} sessions
@@ -218,14 +224,16 @@ export default function HelperProfilePage() {
                       </h3>
                       {helper.specialties && helper.specialties.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
-                          {helper.specialties.map((specialty: string, index: number) => (
-                            <Badge
-                              key={index}
-                              className="bg-royal-blue text-white hover:bg-royal-blue/90 border-royal-blue/20"
-                            >
-                              {specialty}
-                            </Badge>
-                          ))}
+                          {helper.specialties.map(
+                            (specialty: string, index: number) => (
+                              <Badge
+                                key={index}
+                                className="bg-royal-blue text-white hover:bg-royal-blue/90 border-royal-blue/20"
+                              >
+                                {specialty}
+                              </Badge>
+                            )
+                          )}
                         </div>
                       ) : (
                         <p className="text-primary-text/70 dark:text-dark-base-text/70 bg-light-blue-gray/10 dark:bg-royal-blue/10 p-4 rounded-lg border-light-blue-gray/20 dark:border-royal-blue/30">
@@ -277,7 +285,10 @@ export default function HelperProfilePage() {
                 ) : (
                   <div className="space-y-6">
                     <div>
-                      <Label htmlFor="name" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="name"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Nom complet *
                       </Label>
                       <Input
@@ -289,7 +300,10 @@ export default function HelperProfilePage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="email" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="email"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Email *
                       </Label>
                       <Input
@@ -305,17 +319,26 @@ export default function HelperProfilePage() {
                       label="Avatar"
                       selectedAvatar={formData.avatar}
                       onAvatarSelect={handleChange("avatar")}
-                      error={!formData.avatar ? "Veuillez choisir un avatar" : undefined}
+                      error={
+                        !formData.avatar
+                          ? "Veuillez choisir un avatar"
+                          : undefined
+                      }
                     />
 
                     <div>
-                      <Label htmlFor="description" className="text-primary-text dark:text-dark-base-text">
+                      <Label
+                        htmlFor="description"
+                        className="text-primary-text dark:text-dark-base-text"
+                      >
                         Description de votre profil
                       </Label>
                       <Textarea
                         id="description"
                         value={formData.description}
-                        onChange={(e) => handleChange("description")(e.target.value)}
+                        onChange={(e) =>
+                          handleChange("description")(e.target.value)
+                        }
                         rows={4}
                         placeholder="Présentez-vous et décrivez votre approche pédagogique..."
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/30 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text placeholder:text-primary-text/50 dark:placeholder:text-dark-base-text/50 focus:border-royal-blue focus:ring-royal-blue/20"
@@ -330,7 +353,11 @@ export default function HelperProfilePage() {
                       placeholder="Sélectionnez vos domaines d'expertise..."
                       minSelection={1}
                       maxSelection={10}
-                      error={formData.specialties.length === 0 ? "Sélectionnez au moins une spécialité" : undefined}
+                      error={
+                        formData.specialties.length === 0
+                          ? "Sélectionnez au moins une spécialité"
+                          : undefined
+                      }
                     />
 
                     <div>
@@ -356,7 +383,7 @@ export default function HelperProfilePage() {
                         variant="outline"
                         onClick={handleCancel}
                         disabled={loading}
-                        className="border-royal-blue/30 text-royal-blue hover:bg-royal-blue/10 hover:border-royal-blue/50 bg-white dark:bg-blue-gray-dark"
+                        className=" bg-royal-blue hover:bg-royal-blue/90  dark:hover:bg-royal-blue/20 dark:bg-royal-blue border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                       >
                         Annuler
                       </Button>
@@ -370,5 +397,5 @@ export default function HelperProfilePage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
