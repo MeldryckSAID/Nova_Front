@@ -14,28 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
-const specialtyOptions = [
-  "Mathématiques",
-  "Programmation",
-  "Langues étrangères",
-  "Sciences physiques",
-  "Histoire-Géographie",
-  "Littérature",
-  "Arts plastiques",
-  "Musique",
-  "Économie",
-  "Philosophie",
-  "Biologie",
-  "Chimie",
-  "Informatique",
-  "Marketing",
-  "Comptabilité",
-  "Droit",
-  "Psychologie",
-  "Architecture",
-  "Design graphique",
-  "Photographie",
-]
+const categoriesOptions = 
 
 export default function ConnexionPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -262,7 +241,7 @@ export default function ConnexionPage() {
 
                       <MultiSelect
                         label="Spécialités d'intérêt *"
-                        options={specialtyOptions}
+                        options={categoriesOptions}
                         selected={formData.specialties}
                         onChange={handleChange("specialties")}
                         placeholder="Sélectionnez vos domaines d'intérêt..."
