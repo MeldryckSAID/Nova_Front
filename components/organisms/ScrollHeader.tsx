@@ -1,34 +1,34 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Sun, Moon } from "lucide-react"
-import { Logo } from "../atoms/Logo"
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Sun, Moon } from 'lucide-react';
+import { Logo } from '../atoms/Logo';
 
 export function ScrollHeader() {
-  const [theme, setTheme] = useState("light")
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [user, setUser] = useState<any>(null)
+  const [theme, setTheme] = useState('light');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     // Vérifier si l'utilisateur est connecté
-    const savedUser = localStorage.getItem("user")
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setUser(JSON.parse(savedUser))
+      setUser(JSON.parse(savedUser));
     }
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light"
-    setTheme(newTheme)
-    document.documentElement.classList.toggle("dark", newTheme === "dark")
-  }
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
 
   return (
     <>
@@ -53,7 +53,7 @@ export function ScrollHeader() {
             </Link>
             {user ? (
               <>
-                {user.userType === "helper" ? (
+                {user.userType === 'helper' ? (
                   <Link
                     href="/helper-dashboard"
                     className="text-white hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hover:scale-105 hover:z-50 relative hover:bg-white/30 hover:shadow-lg hover:mx-1"
@@ -89,7 +89,11 @@ export function ScrollHeader() {
               onClick={toggleTheme}
               className="p-2 rounded-full bg-white/10 hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:z-50 relative hover:shadow-lg hover:mx-1"
             >
-              {theme === "light" ? <Moon className="w-5 h-5 text-white" /> : <Sun className="w-5 h-5 text-white" />}
+              {theme === 'light' ? (
+                <Moon className="w-5 h-5 text-white" />
+              ) : (
+                <Sun className="w-5 h-5 text-white" />
+              )}
             </button>
           </nav>
         </div>
@@ -117,7 +121,7 @@ export function ScrollHeader() {
               </Link>
               {user ? (
                 <>
-                  {user.userType === "helper" ? (
+                  {user.userType === 'helper' ? (
                     <Link
                       href="/helper-dashboard"
                       className="text-white hover:text-white text-sm transition-all duration-300 px-3 py-2 rounded-lg hover:scale-105 hover:z-[60] relative hover:bg-white/30 hover:shadow-lg hover:mx-1"
@@ -153,12 +157,16 @@ export function ScrollHeader() {
                 onClick={toggleTheme}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:z-[60] relative hover:shadow-lg hover:mx-1"
               >
-                {theme === "light" ? <Moon className="w-4 h-4 text-white" /> : <Sun className="w-4 h-4 text-white" />}
+                {theme === 'light' ? (
+                  <Moon className="w-4 h-4 text-white" />
+                ) : (
+                  <Sun className="w-4 h-4 text-white" />
+                )}
               </button>
             </nav>
           </div>
         </header>
       )}
     </>
-  )
+  );
 }

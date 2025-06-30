@@ -1,7 +1,7 @@
-import { HeroSection } from "../components/organisms/HeroSection"
-import { HelperSection } from "../components/organisms/HelperSection"
-import { ScrollHeader } from "../components/organisms/ScrollHeader"
-import { Footer } from "../components/organisms/Footer"
+import { HeroSection } from '../components/organisms/HeroSection';
+import { HelperSection } from '../components/organisms/HelperSection';
+import { ScrollHeader } from '../components/organisms/ScrollHeader';
+import { Footer } from '../components/organisms/Footer';
 
 export default function HomePage() {
   return (
@@ -13,5 +13,5 @@ export default function HomePage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
