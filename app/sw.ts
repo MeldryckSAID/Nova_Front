@@ -37,9 +37,10 @@ self.addEventListener('install', (event: ExtendableEvent) => {
 });
 
 // Activation du Service Worker
-self.addEventListener('activate', (event: ExtendableEvent) => {
+self.addEventListener('activate', (event) => {
+  const swEvent = event as ExtendableEvent;
   console.log('✅ Service Worker: Activation');
-  event.waitUntil(
+  swEvent.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {

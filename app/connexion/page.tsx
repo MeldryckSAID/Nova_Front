@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import url from '@/src/outils/generalUrl'
 
 export default function ConnexionPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -33,7 +34,7 @@ export default function ConnexionPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch('http://localhost:3030/api/categories/all');
+        const res = await fetch(`${url.value}categories/all`);
         const data = await res.json();
         setCategoriesOptions(data.categories || []);
       } catch {
