@@ -110,12 +110,14 @@ export default function HelperProfilePage() {
 
       const updatedHelper = {
         ...helper,
+        id: helper?.id ?? '', // Ensure id is always a string
         name: formData.name,
         email: formData.email,
         avatar: formData.avatar,
         description: formData.description,
         specialties: formData.specialties,
         timeSlots: formData.timeSlots,
+        status: helper?.status ?? 'available', // Ensure status is always set
       };
 
       // Mettre à jour dans localStorage

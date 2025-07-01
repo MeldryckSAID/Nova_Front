@@ -256,6 +256,7 @@ export default function ProfilePage() {
                       error={
                         !formData.avatar
                           ? 'Veuillez choisir un avatar'
+                          : undefined
                       }
                     />
 
