@@ -256,7 +256,6 @@ export default function ProfilePage() {
                       error={
                         !formData.avatar
                           ? 'Veuillez choisir un avatar'
-                          : undefined
                       }
                     />
 
@@ -304,7 +303,7 @@ export default function ProfilePage() {
                         variant="outline"
                         onClick={handleCancel}
                         disabled={loading}
-                        className="border-light-blue-gray/30 text-primary-text dark:text-dark-base-text hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10 bg-white dark:bg-blue-gray-dark"
+                        className="border-royal-blue/30 text-royal-blue hover:bg-royal-blue/10  dark:hover:bg-royal-blue/20 dark:bg-royal-blue dark:text-white "
                       >
                         Annuler
                       </Button>

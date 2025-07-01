@@ -386,7 +386,7 @@ export default function HelperProfilePage() {
                         variant="outline"
                         onClick={handleCancel}
                         disabled={loading}
-                        className="border-royal-blue/30 text-royal-blue hover:bg-royal-blue/10 hover:border-royal-blue/50 bg-white dark:bg-blue-gray-dark"
+                        className=" bg-royal-blue hover:bg-royal-blue/90  dark:hover:bg-royal-blue/20 dark:bg-royal-blue border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                       >
                         Annuler
                       </Button>

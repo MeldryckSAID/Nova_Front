@@ -235,7 +235,7 @@ export function BookingModal({
               type="button"
               variant="outline"
               onClick={() => setIsOpen(false)}
-              className="border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10"
+              className=" bg-royal-blue hover:bg-royal-blue/90 text-white  dark:hover:bg-royal-blue/20 dark:bg-royal-blue  border-royal-blue/30  dark:text-dark-base-text"
             >
               Annuler
             </Button>

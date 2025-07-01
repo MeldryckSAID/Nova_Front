@@ -147,7 +147,7 @@ export function PWAInstaller() {
                 <Button
                   variant="outline"
                   onClick={() => setShowInstall(false)}
-                  className="border-royal-blue/30 text-royal-blue hover:bg-royal-blue/10"
+                  className="border-royal-blue/30 text-white bg-royal-blue hover:bg-royal-blue/10 dark:hover:bg-royal-blue/20 dark:bg-royal-blue dark:text-white"
                 >
                   Plus tard
                 </Button>
