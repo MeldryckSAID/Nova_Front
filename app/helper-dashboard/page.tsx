@@ -1,60 +1,75 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { ScrollHeader } from "../../components/organisms/ScrollHeader"
-import { Footer } from "../../components/organisms/Footer"
-import { Avatar } from "../../components/atoms/Avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { Helper, BookingRequest } from "../../types"
-import Image from "next/image"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ScrollHeader } from '../../components/organisms/ScrollHeader';
+import { Footer } from '../../components/organisms/Footer';
+import { Avatar } from '../../components/atoms/Avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { Helper, BookingRequest } from '../../types';
+import Image from 'next/image';
 
 export default function HelperDashboardPage() {
-  const [helper, setHelper] = useState<Helper | null>(null)
-  const [bookingRequests, setBookingRequests] = useState<BookingRequest[]>([])
-  const router = useRouter()
+  const [helper, setHelper] = useState<Helper | null>(null);
+  const [bookingRequests, setBookingRequests] = useState<BookingRequest[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user")
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      if (userData.userType === "helper") {
-        setHelper(userData)
+      const userData = JSON.parse(savedUser);
+      if (userData.userType === 'helper') {
+        setHelper(userData);
         // Charger les demandes de réservation
-        const requests = JSON.parse(localStorage.getItem("bookingRequests") || "[]")
-        setBookingRequests(requests.filter((req: BookingRequest) => req.helperId === userData.id))
+        const requests = JSON.parse(
+          localStorage.getItem('bookingRequests') || '[]'
+        );
+        setBookingRequests(
+          requests.filter((req: BookingRequest) => req.helperId === userData.id)
+        );
       } else {
-        router.push("/connexion")
+        router.push('/connexion');
       }
     } else {
-      router.push("/connexion")
+      router.push('/connexion');
     }
-  }, [router])
+  }, [router]);
 
-  const handleBookingAction = (requestId: string, action: "accepted" | "rejected") => {
-    const updatedRequests = bookingRequests.map((req) => (req.id === requestId ? { ...req, status: action } : req))
-    setBookingRequests(updatedRequests)
+  const handleBookingAction = (
+    requestId: string,
+    action: 'accepted' | 'rejected'
+  ) => {
+    const updatedRequests = bookingRequests.map((req) =>
+      req.id === requestId ? { ...req, status: action } : req
+    );
+    setBookingRequests(updatedRequests);
 
     // Mettre à jour dans localStorage
-    const allRequests = JSON.parse(localStorage.getItem("bookingRequests") || "[]")
+    const allRequests = JSON.parse(
+      localStorage.getItem('bookingRequests') || '[]'
+    );
     const newAllRequests = allRequests.map((req: BookingRequest) =>
-      req.id === requestId ? { ...req, status: action } : req,
-    )
-    localStorage.setItem("bookingRequests", JSON.stringify(newAllRequests))
-  }
+      req.id === requestId ? { ...req, status: action } : req
+    );
+    localStorage.setItem('bookingRequests', JSON.stringify(newAllRequests));
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem("user")
-    router.push("/")
-  }
+    localStorage.removeItem('user');
+    router.push('/');
+  };
 
-  if (!helper) return null
+  if (!helper) return null;
 
-  const pendingRequests = bookingRequests.filter((req) => req.status === "pending")
-  const acceptedRequests = bookingRequests.filter((req) => req.status === "accepted")
+  const pendingRequests = bookingRequests.filter(
+    (req) => req.status === 'pending'
+  );
+  const acceptedRequests = bookingRequests.filter(
+    (req) => req.status === 'accepted'
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-alt-background dark:bg-dark-background">
@@ -67,7 +82,13 @@ export default function HelperDashboardPage() {
               <div></div>
               <div className="flex items-center space-x-4">
                 <div className="flex items-center">
-                  <Image src="/images/nova_logo.svg" alt="NOVA Logo" width={32} height={32} className="w-8 h-8 mr-3" />
+                  <Image
+                    src="/images/nova_logo.svg"
+                    alt="NOVA Logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 mr-3"
+                  />
                   <h1 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">
                     Dashboard Helper - {helper.name}
                   </h1>
@@ -75,7 +96,7 @@ export default function HelperDashboardPage() {
                 <Avatar src={helper.avatar} alt={helper.name} size="lg" />
                 <div className="flex items-center space-x-4">
                   <Button
-                    onClick={() => router.push("/helper-profile")}
+                    onClick={() => router.push('/helper-profile')}
                     className="bg-royal-blue hover:bg-royal-blue/90 text-white"
                   >
                     Modifier le profil
@@ -95,26 +116,42 @@ export default function HelperDashboardPage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-royal-blue">{helper.totalSessions || 0}</div>
-                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">Sessions totales</div>
+                  <div className="text-2xl font-bold text-royal-blue">
+                    {helper.totalSessions || 0}
+                  </div>
+                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
+                    Sessions totales
+                  </div>
                 </CardContent>
               </Card>
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-success-green">{helper.rating || 0}/5</div>
-                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">Note moyenne</div>
+                  <div className="text-2xl font-bold text-success-green">
+                    {helper.rating || 0}/5
+                  </div>
+                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
+                    Note moyenne
+                  </div>
                 </CardContent>
               </Card>
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-royal-blue">{pendingRequests.length}</div>
-                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">Demandes en attente</div>
+                  <div className="text-2xl font-bold text-royal-blue">
+                    {pendingRequests.length}
+                  </div>
+                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
+                    Demandes en attente
+                  </div>
                 </CardContent>
               </Card>
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardContent className="p-6 text-center">
-                  <div className="text-2xl font-bold text-royal-blue">{helper.timeSlots.length}</div>
-                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">Créneaux définis</div>
+                  <div className="text-2xl font-bold text-royal-blue">
+                    {helper.timeSlots.length}
+                  </div>
+                  <div className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
+                    Créneaux définis
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -174,7 +211,9 @@ export default function HelperDashboardPage() {
                               <div className="flex space-x-2">
                                 <Button
                                   size="sm"
-                                  onClick={() => handleBookingAction(request.id, "accepted")}
+                                  onClick={() =>
+                                    handleBookingAction(request.id, 'accepted')
+                                  }
                                   className="bg-success-green hover:bg-success-green/90 text-white"
                                 >
                                   Accepter
@@ -182,7 +221,9 @@ export default function HelperDashboardPage() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  onClick={() => handleBookingAction(request.id, "rejected")}
+                                  onClick={() =>
+                                    handleBookingAction(request.id, 'rejected')
+                                  }
                                   className="border-soft-error-red/30 text-soft-error-red hover:bg-soft-error-red/10"
                                 >
                                   Refuser
@@ -210,8 +251,10 @@ export default function HelperDashboardPage() {
                     {acceptedRequests.length > 0 ? (
                       <div className="space-y-4">
                         {acceptedRequests.map((request) => {
-                          const timeSlot = helper.timeSlots.find((slot) => slot.id === request.timeSlotId)
-                          const canJoinMeeting = request.status === "accepted"
+                          const timeSlot = helper.timeSlots.find(
+                            (slot) => slot.id === request.timeSlotId
+                          );
+                          const canJoinMeeting = request.status === 'accepted';
 
                           return (
                             <Card
@@ -224,17 +267,20 @@ export default function HelperDashboardPage() {
                                     Session programmée
                                   </h4>
                                   <p className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
-                                    Date :{" "}
-                                    {new Date(request.requestedDate).toLocaleDateString("fr-FR", {
-                                      weekday: "long",
-                                      year: "numeric",
-                                      month: "long",
-                                      day: "numeric",
+                                    Date :{' '}
+                                    {new Date(
+                                      request.requestedDate
+                                    ).toLocaleDateString('fr-FR', {
+                                      weekday: 'long',
+                                      year: 'numeric',
+                                      month: 'long',
+                                      day: 'numeric',
                                     })}
                                   </p>
                                   {timeSlot && (
                                     <p className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
-                                      Horaire : {timeSlot.startTime} - {timeSlot.endTime}
+                                      Horaire : {timeSlot.startTime} -{' '}
+                                      {timeSlot.endTime}
                                     </p>
                                   )}
                                   {request.message && (
@@ -244,11 +290,13 @@ export default function HelperDashboardPage() {
                                   )}
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                  <Badge className="bg-success-green text-white">Confirmée</Badge>
+                                  <Badge className="bg-success-green text-white">
+                                    Confirmée
+                                  </Badge>
                                   {canJoinMeeting && (
                                     <Button
                                       size="sm"
-                                      onClick={() => router.push("/")}
+                                      onClick={() => router.push('/')}
                                       className="bg-success-green hover:bg-success-green/90 text-white"
                                     >
                                       🎥 Bientôt disponible
@@ -257,7 +305,7 @@ export default function HelperDashboardPage() {
                                 </div>
                               </div>
                             </Card>
-                          )
+                          );
                         })}
                       </div>
                     ) : (
@@ -286,17 +334,21 @@ export default function HelperDashboardPage() {
                           >
                             <div className="flex items-center justify-between">
                               <div>
-                                <h4 className="font-semibold text-primary-text dark:text-dark-base-text">{slot.day}</h4>
+                                <h4 className="font-semibold text-primary-text dark:text-dark-base-text">
+                                  {slot.day}
+                                </h4>
                                 <p className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
                                   {slot.startTime} - {slot.endTime}
                                 </p>
                               </div>
                               <Badge
                                 className={
-                                  slot.isRecurring ? "bg-royal-blue text-white" : "bg-royal-blue/20 text-royal-blue"
+                                  slot.isRecurring
+                                    ? 'bg-royal-blue text-white'
+                                    : 'bg-royal-blue/20 text-royal-blue'
                                 }
                               >
-                                {slot.isRecurring ? "Récurrent" : "Ponctuel"}
+                                {slot.isRecurring ? 'Récurrent' : 'Ponctuel'}
                               </Badge>
                             </div>
                           </Card>
@@ -304,7 +356,8 @@ export default function HelperDashboardPage() {
                       </div>
                     ) : (
                       <p className="text-primary-text/70 dark:text-dark-base-text/70 text-center py-8">
-                        Aucun créneau défini. Ajoutez vos disponibilités pour recevoir des demandes.
+                        Aucun créneau défini. Ajoutez vos disponibilités pour
+                        recevoir des demandes.
                       </p>
                     )}
                   </CardContent>
@@ -314,14 +367,20 @@ export default function HelperDashboardPage() {
               <TabsContent value="profile">
                 <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                   <CardHeader>
-                    <CardTitle className="text-primary-text dark:text-dark-base-text">Mon profil</CardTitle>
+                    <CardTitle className="text-primary-text dark:text-dark-base-text">
+                      Mon profil
+                    </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex items-center space-x-6">
                       <Avatar src={helper.avatar} alt={helper.name} size="lg" />
                       <div>
-                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">{helper.name}</h2>
-                        <p className="text-primary-text/70 dark:text-dark-base-text/70">{helper.email}</p>
+                        <h2 className="text-2xl font-bold text-primary-text dark:text-dark-base-text">
+                          {helper.name}
+                        </h2>
+                        <p className="text-primary-text/70 dark:text-dark-base-text/70">
+                          {helper.email}
+                        </p>
                         {helper.hourlyRate && (
                           <p className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
                             Tarif : {helper.hourlyRate}€/heure
@@ -336,7 +395,10 @@ export default function HelperDashboardPage() {
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {helper.specialties.map((specialty, index) => (
-                          <Badge key={index} className="bg-royal-blue text-white">
+                          <Badge
+                            key={index}
+                            className="bg-royal-blue text-white"
+                          >
                             {specialty}
                           </Badge>
                         ))}
@@ -348,7 +410,9 @@ export default function HelperDashboardPage() {
                         <h3 className="text-lg font-semibold mb-3 text-primary-text dark:text-dark-base-text">
                           Description
                         </h3>
-                        <p className="text-primary-text/70 dark:text-dark-base-text/70">{helper.description}</p>
+                        <p className="text-primary-text/70 dark:text-dark-base-text/70">
+                          {helper.description}
+                        </p>
                       </div>
                     )}
                   </CardContent>
@@ -360,5 +424,5 @@ export default function HelperDashboardPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

@@ -53,7 +53,9 @@ html {
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Classes utilitaires pour l'harmonie NOVA - PALETTE STRICTE BLEU ROYAL + BLANC/GRIS */
@@ -138,14 +140,14 @@ body {
 /* Forcer les couleurs des Select Items - PLUS SPÉCIFIQUE */
 [data-radix-select-content] [data-radix-select-item],
 .select-item,
-[role="option"] {
+[role='option'] {
   color: #1f2937 !important; /* primary-text */
   background-color: transparent !important;
 }
 
 .dark [data-radix-select-content] [data-radix-select-item],
 .dark .select-item,
-.dark [role="option"] {
+.dark [role='option'] {
   color: #f8fafc !important; /* dark-base-text */
 }
 
@@ -153,13 +155,13 @@ body {
 [data-radix-select-content] [data-radix-select-item]:hover,
 [data-radix-select-content] [data-radix-select-item]:focus,
 [data-radix-select-content] [data-radix-select-item][data-highlighted],
-[data-radix-select-content] [data-radix-select-item][data-state="checked"],
+[data-radix-select-content] [data-radix-select-item][data-state='checked'],
 .select-item:hover,
 .select-item:focus,
-[role="option"]:hover,
-[role="option"]:focus,
-[role="option"][data-highlighted],
-[role="option"][aria-selected="true"] {
+[role='option']:hover,
+[role='option']:focus,
+[role='option'][data-highlighted],
+[role='option'][aria-selected='true'] {
   background-color: rgba(44, 62, 145, 0.1) !important; /* royal-blue/10 */
   color: #1f2937 !important; /* primary-text */
 }
@@ -167,13 +169,15 @@ body {
 .dark [data-radix-select-content] [data-radix-select-item]:hover,
 .dark [data-radix-select-content] [data-radix-select-item]:focus,
 .dark [data-radix-select-content] [data-radix-select-item][data-highlighted],
-.dark [data-radix-select-content] [data-radix-select-item][data-state="checked"],
+.dark
+  [data-radix-select-content]
+  [data-radix-select-item][data-state='checked'],
 .dark .select-item:hover,
 .dark .select-item:focus,
-.dark [role="option"]:hover,
-.dark [role="option"]:focus,
-.dark [role="option"][data-highlighted],
-.dark [role="option"][aria-selected="true"] {
+.dark [role='option']:hover,
+.dark [role='option']:focus,
+.dark [role='option'][data-highlighted],
+.dark [role='option'][aria-selected='true'] {
   background-color: rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
   color: #f8fafc !important; /* dark-base-text */
 }
@@ -188,14 +192,14 @@ body {
 }
 
 /* Forcer les couleurs des éléments sélectionnés */
-[aria-selected="true"],
-[data-state="checked"] {
+[aria-selected='true'],
+[data-state='checked'] {
   background-color: rgba(44, 62, 145, 0.1) !important;
   color: #1f2937 !important;
 }
 
-.dark [aria-selected="true"],
-.dark [data-state="checked"] {
+.dark [aria-selected='true'],
+.dark [data-state='checked'] {
   background-color: rgba(44, 62, 145, 0.2) !important;
   color: #f8fafc !important;
 }
@@ -218,13 +222,13 @@ textarea:focus {
 }
 
 /* Forcer les couleurs des boutons outline */
-button[data-variant="outline"]:hover {
+button[data-variant='outline']:hover {
   background-color: rgba(44, 62, 145, 0.1) !important;
   border-color: #2c3e91 !important;
   color: #2c3e91 !important;
 }
 
-.dark button[data-variant="outline"]:hover {
+.dark button[data-variant='outline']:hover {
   background-color: rgba(44, 62, 145, 0.2) !important;
   border-color: #2c3e91 !important;
   color: #2c3e91 !important;
@@ -236,14 +240,14 @@ button[data-variant="outline"]:hover {
 }
 
 /* Forcer les couleurs des checkboxes et radios */
-input[type="checkbox"]:checked,
-input[type="radio"]:checked {
+input[type='checkbox']:checked,
+input[type='radio']:checked {
   background-color: #2c3e91 !important;
   border-color: #2c3e91 !important;
 }
 
-input[type="checkbox"]:focus,
-input[type="radio"]:focus {
+input[type='checkbox']:focus,
+input[type='radio']:focus {
   box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important;
 }
 
@@ -281,25 +285,35 @@ a:hover {
 /* Forcer les bordures des Select Triggers */
 [data-radix-select-trigger],
 .select-trigger,
-button[role="combobox"] {
-  border-color: rgba(219, 228, 240, 0.2) !important; /* light-blue-gray/20 par défaut */
+button[role='combobox'] {
+  border-color: rgba(
+    219,
+    228,
+    240,
+    0.2
+  ) !important; /* light-blue-gray/20 par défaut */
 }
 
 .dark [data-radix-select-trigger],
 .dark .select-trigger,
-.dark button[role="combobox"] {
-  border-color: rgba(44, 62, 145, 0.3) !important; /* royal-blue/30 en mode sombre */
+.dark button[role='combobox'] {
+  border-color: rgba(
+    44,
+    62,
+    145,
+    0.3
+  ) !important; /* royal-blue/30 en mode sombre */
 }
 
 /* Focus/Active des Select Triggers - ROYAL BLUE UNIQUEMENT */
 [data-radix-select-trigger]:focus,
 [data-radix-select-trigger]:focus-visible,
-[data-radix-select-trigger][data-state="open"],
+[data-radix-select-trigger][data-state='open'],
 .select-trigger:focus,
 .select-trigger:focus-visible,
-button[role="combobox"]:focus,
-button[role="combobox"]:focus-visible,
-button[role="combobox"][aria-expanded="true"] {
+button[role='combobox']:focus,
+button[role='combobox']:focus-visible,
+button[role='combobox'][aria-expanded='true'] {
   border-color: #2c3e91 !important; /* royal-blue */
   box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
   outline: none !important;
@@ -307,12 +321,12 @@ button[role="combobox"][aria-expanded="true"] {
 
 .dark [data-radix-select-trigger]:focus,
 .dark [data-radix-select-trigger]:focus-visible,
-.dark [data-radix-select-trigger][data-state="open"],
+.dark [data-radix-select-trigger][data-state='open'],
 .dark .select-trigger:focus,
 .dark .select-trigger:focus-visible,
-.dark button[role="combobox"]:focus,
-.dark button[role="combobox"]:focus-visible,
-.dark button[role="combobox"][aria-expanded="true"] {
+.dark button[role='combobox']:focus,
+.dark button[role='combobox']:focus-visible,
+.dark button[role='combobox'][aria-expanded='true'] {
   border-color: #2c3e91 !important; /* royal-blue */
   box-shadow: 0 0 0 2px rgba(44, 62, 145, 0.2) !important; /* royal-blue/20 */
 }
@@ -324,7 +338,7 @@ button[role="combobox"][aria-expanded="true"] {
 }
 
 /* Forcer les couleurs des éléments avec état ouvert */
-[data-state="open"],
-[aria-expanded="true"] {
+[data-state='open'],
+[aria-expanded='true'] {
   border-color: #2c3e91 !important;
 }

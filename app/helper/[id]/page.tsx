@@ -1,122 +1,159 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { ScrollHeader } from "../../../components/organisms/ScrollHeader"
-import { Footer } from "../../../components/organisms/Footer"
-import { Avatar } from "../../../components/atoms/Avatar"
-import { BookingModal } from "../../../components/molecules/BookingModal"
-import type { Helper, BookingRequest } from "../../../types"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Mail } from "lucide-react"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ScrollHeader } from '../../../components/organisms/ScrollHeader';
+import { Footer } from '../../../components/organisms/Footer';
+import { Avatar } from '../../../components/atoms/Avatar';
+import { BookingModal } from '../../../components/molecules/BookingModal';
+import type { Helper, BookingRequest } from '../../../types';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Mail } from 'lucide-react';
 
 interface HelperProfilePageProps {
-  params: { id: string }
+  params: { id: string };
 }
 
 // helpers par défaut (ceux codés en dur)
 const defaultHelpers: Helper[] = [
   {
-    id: "1",
-    name: "Jeremie Malcom",
-    email: "jeremie@example.com",
-    avatar: "/images/avatars/guy-1.svg",
-    specialties: ["Développement", "Programmation"],
+    id: '1',
+    name: 'Jeremie Malcom',
+    email: 'jeremie@example.com',
+    avatar: '/images/avatars/guy-1.svg',
+    specialties: ['Développement', 'Programmation'],
     timeSlots: [
-      { id: "slot-1", day: "Lundi", startTime: "19:00", endTime: "21:00", isRecurring: true },
-      { id: "slot-2", day: "Mercredi", startTime: "19:00", endTime: "21:00", isRecurring: true },
+      {
+        id: 'slot-1',
+        day: 'Lundi',
+        startTime: '19:00',
+        endTime: '21:00',
+        isRecurring: true,
+      },
+      {
+        id: 'slot-2',
+        day: 'Mercredi',
+        startTime: '19:00',
+        endTime: '21:00',
+        isRecurring: true,
+      },
     ],
-    description: "Développeur expérimenté spécialisé en JavaScript et React",
+    description: 'Développeur expérimenté spécialisé en JavaScript et React',
     rating: 4.5,
     totalSessions: 10,
-    status: "available",
+    status: 'available',
   },
   {
-    id: "2",
-    name: "David",
-    email: "david@example.com",
-    avatar: "/images/avatars/guy-2.svg",
-    specialties: ["Programmation", "Informatique"],
+    id: '2',
+    name: 'David',
+    email: 'david@example.com',
+    avatar: '/images/avatars/guy-2.svg',
+    specialties: ['Programmation', 'Informatique'],
     timeSlots: [
-      { id: "slot-3", day: "Mardi", startTime: "14:00", endTime: "18:00", isRecurring: true },
-      { id: "slot-4", day: "Jeudi", startTime: "14:00", endTime: "18:00", isRecurring: true },
+      {
+        id: 'slot-3',
+        day: 'Mardi',
+        startTime: '14:00',
+        endTime: '18:00',
+        isRecurring: true,
+      },
+      {
+        id: 'slot-4',
+        day: 'Jeudi',
+        startTime: '14:00',
+        endTime: '18:00',
+        isRecurring: true,
+      },
     ],
     description: "Full-stack developer avec 5 ans d'expérience",
     rating: 4.8,
     totalSessions: 25,
-    status: "available",
+    status: 'available',
   },
-]
+];
 
 export default function HelperProfilePage({ params }: HelperProfilePageProps) {
-  const router = useRouter()
-  const [helper, setHelper] = useState<Helper | null>(null)
-  const [currentUser, setCurrentUser] = useState<any>(null)
+  const router = useRouter();
+  const [helper, setHelper] = useState<Helper | null>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
     // Récupérer l'utilisateur connecté
-    const savedUser = localStorage.getItem("user")
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser))
+      setCurrentUser(JSON.parse(savedUser));
     }
 
     // Récupérer helpers dynamiques
-    const localHelpers: Helper[] = JSON.parse(localStorage.getItem("helpers") || "[]")
-    const allHelpers = [...defaultHelpers, ...localHelpers]
+    const localHelpers: Helper[] = JSON.parse(
+      localStorage.getItem('helpers') || '[]'
+    );
+    const allHelpers = [...defaultHelpers, ...localHelpers];
 
-    const found = allHelpers.find((h) => h.id === params.id)
+    const found = allHelpers.find((h) => h.id === params.id);
     if (!found) {
-      router.replace("/helper") // redirige si introuvable
+      router.replace('/helper'); // redirige si introuvable
     } else {
-      setHelper(found)
+      setHelper(found);
     }
-  }, [params.id, router])
+  }, [params.id, router]);
 
-  const handleBookingSubmit = (booking: Omit<BookingRequest, "id" | "createdAt">) => {
+  const handleBookingSubmit = (
+    booking: Omit<BookingRequest, 'id' | 'createdAt'>
+  ) => {
     const newBooking: BookingRequest = {
       ...booking,
       id: `booking-${Date.now()}`,
       createdAt: new Date().toISOString(),
-    }
+    };
 
     // Sauvegarder la réservation
-    const existingBookings = JSON.parse(localStorage.getItem("bookingRequests") || "[]")
-    localStorage.setItem("bookingRequests", JSON.stringify([...existingBookings, newBooking]))
+    const existingBookings = JSON.parse(
+      localStorage.getItem('bookingRequests') || '[]'
+    );
+    localStorage.setItem(
+      'bookingRequests',
+      JSON.stringify([...existingBookings, newBooking])
+    );
 
-    alert("Demande de réservation envoyée ! Le helper vous répondra bientôt.")
-  }
+    alert('Demande de réservation envoyée ! Le helper vous répondra bientôt.');
+  };
 
   const handleContactHelper = () => {
     if (helper?.email) {
-      const subject = encodeURIComponent(`Contact depuis NOVA - ${helper.name}`)
+      const subject = encodeURIComponent(
+        `Contact depuis NOVA - ${helper.name}`
+      );
       const body = encodeURIComponent(`Bonjour ${helper.name},
 
 Je vous contacte via la plateforme NOVA car je suis intéressé(e) par vos services.
 
 Cordialement,
-${currentUser?.name || "Un utilisateur"}`)
+${currentUser?.name || 'Un utilisateur'}`);
 
-      window.location.href = `mailto:${helper.email}?subject=${subject}&body=${body}`
+      window.location.href = `mailto:${helper.email}?subject=${subject}&body=${body}`;
     }
-  }
+  };
 
   if (!helper) {
     return (
       <div className="min-h-screen flex flex-col">
         <ScrollHeader />
         <main className="flex-1 flex items-center justify-center bg-alt-background dark:bg-dark-background">
-          <p className="text-primary-text/70 dark:text-dark-base-text/70">Chargement du profil…</p>
+          <p className="text-primary-text/70 dark:text-dark-base-text/70">
+            Chargement du profil…
+          </p>
         </main>
         <Footer />
       </div>
-    )
+    );
   }
 
   // Vérifier si l'utilisateur est connecté pour les actions
-  const isLoggedIn = !!currentUser
-  const isStudent = currentUser?.userType !== "helper"
+  const isLoggedIn = !!currentUser;
+  const isStudent = currentUser?.userType !== 'helper';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -129,22 +166,33 @@ ${currentUser?.name || "Un utilisateur"}`)
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-3xl text-primary-text dark:text-dark-base-text">{helper.name}</CardTitle>
+                    <CardTitle className="text-3xl text-primary-text dark:text-dark-base-text">
+                      {helper.name}
+                    </CardTitle>
                     <div className="flex items-center space-x-2">
                       {helper.rating && (
-                        <Badge variant="secondary" className="bg-royal-blue/10 text-royal-blue border-royal-blue/20">
+                        <Badge
+                          variant="secondary"
+                          className="bg-royal-blue/10 text-royal-blue border-royal-blue/20"
+                        >
                           ⭐ {helper.rating}/5
                         </Badge>
                       )}
                       <Badge
-                        variant={helper.status === "available" ? "default" : "secondary"}
+                        variant={
+                          helper.status === 'available'
+                            ? 'default'
+                            : 'secondary'
+                        }
                         className={
-                          helper.status === "available"
-                            ? "bg-soft-success-green text-white"
-                            : "bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70"
+                          helper.status === 'available'
+                            ? 'bg-soft-success-green text-white'
+                            : 'bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70'
                         }
                       >
-                        {helper.status === "available" ? "Disponible" : "Occupé"}
+                        {helper.status === 'available'
+                          ? 'Disponible'
+                          : 'Occupé'}
                       </Badge>
                     </div>
                   </div>
@@ -183,8 +231,9 @@ ${currentUser?.name || "Un utilisateur"}`)
                         Expérience
                       </h3>
                       <p className="text-primary-text/70 dark:text-dark-base-text/70">
-                        {helper.totalSessions} session{helper.totalSessions > 1 ? "s" : ""} réalisée
-                        {helper.totalSessions > 1 ? "s" : ""}
+                        {helper.totalSessions} session
+                        {helper.totalSessions > 1 ? 's' : ''} réalisée
+                        {helper.totalSessions > 1 ? 's' : ''}
                       </p>
                     </div>
                   )}
@@ -207,20 +256,24 @@ ${currentUser?.name || "Un utilisateur"}`)
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <h4 className="font-semibold text-primary-text dark:text-dark-base-text">{slot.day}</h4>
+                              <h4 className="font-semibold text-primary-text dark:text-dark-base-text">
+                                {slot.day}
+                              </h4>
                               <p className="text-sm text-primary-text/70 dark:text-dark-base-text/70">
                                 {slot.startTime} - {slot.endTime}
                               </p>
                             </div>
                             <Badge
-                              variant={slot.isRecurring ? "default" : "secondary"}
+                              variant={
+                                slot.isRecurring ? 'default' : 'secondary'
+                              }
                               className={
                                 slot.isRecurring
-                                  ? "bg-royal-blue text-white text-xs"
-                                  : "bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70 text-xs"
+                                  ? 'bg-royal-blue text-white text-xs'
+                                  : 'bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70 text-xs'
                               }
                             >
-                              {slot.isRecurring ? "Récurrent" : "Ponctuel"}
+                              {slot.isRecurring ? 'Récurrent' : 'Ponctuel'}
                             </Badge>
                           </div>
                         </div>
@@ -241,16 +294,20 @@ ${currentUser?.name || "Un utilisateur"}`)
                 <div className="flex justify-center mb-4">
                   <Avatar src={helper.avatar} alt={helper.name} size="lg" />
                 </div>
-                <h2 className="text-xl font-bold text-primary-text dark:text-dark-base-text mb-2">{helper.name}</h2>
+                <h2 className="text-xl font-bold text-primary-text dark:text-dark-base-text mb-2">
+                  {helper.name}
+                </h2>
                 <Badge
-                  variant={helper.status === "available" ? "default" : "secondary"}
+                  variant={
+                    helper.status === 'available' ? 'default' : 'secondary'
+                  }
                   className={
-                    helper.status === "available"
-                      ? "bg-soft-success-green text-white"
-                      : "bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70"
+                    helper.status === 'available'
+                      ? 'bg-soft-success-green text-white'
+                      : 'bg-light-blue-gray/20 text-primary-text/70 dark:text-dark-base-text/70'
                   }
                 >
-                  {helper.status === "available" ? "Disponible" : "Occupé"}
+                  {helper.status === 'available' ? 'Disponible' : 'Occupé'}
                 </Badge>
               </Card>
 
@@ -259,8 +316,14 @@ ${currentUser?.name || "Un utilisateur"}`)
                 <CardContent className="p-6 space-y-4">
                   {/* Bouton de réservation */}
                   {helper.timeSlots.length > 0 && isLoggedIn && isStudent ? (
-                    <BookingModal helper={helper} onBookingSubmit={handleBookingSubmit}>
-                      <Button className="w-full bg-royal-blue hover:bg-royal-blue/90 text-white" size="lg">
+                    <BookingModal
+                      helper={helper}
+                      onBookingSubmit={handleBookingSubmit}
+                    >
+                      <Button
+                        className="w-full bg-royal-blue hover:bg-royal-blue/90 text-white"
+                        size="lg"
+                      >
                         📅 Réserver un créneau
                       </Button>
                     </BookingModal>
@@ -268,7 +331,7 @@ ${currentUser?.name || "Un utilisateur"}`)
                     <Button
                       className="w-full bg-royal-blue hover:bg-royal-blue/90 text-white"
                       size="lg"
-                      onClick={() => router.push("/connexion")}
+                      onClick={() => router.push('/connexion')}
                     >
                       📅 Se connecter pour réserver
                     </Button>
@@ -312,7 +375,9 @@ ${currentUser?.name || "Un utilisateur"}`)
               {/* Informations de contact */}
               <Card className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30">
                 <CardHeader>
-                  <CardTitle className="text-lg text-primary-text dark:text-dark-base-text">Contact</CardTitle>
+                  <CardTitle className="text-lg text-primary-text dark:text-dark-base-text">
+                    Contact
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center space-x-2 text-sm text-primary-text/70 dark:text-dark-base-text/70">
@@ -327,5 +392,5 @@ ${currentUser?.name || "Un utilisateur"}`)
       </main>
       <Footer />
     </div>
-  )
+  );
 }

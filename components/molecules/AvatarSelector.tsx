@@ -1,31 +1,38 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Image from "next/image"
+import { useState } from 'react';
+import Image from 'next/image';
 
 interface AvatarSelectorProps {
-  selectedAvatar: string
-  onAvatarSelect: (avatar: string) => void
-  label?: string
-  error?: string
+  selectedAvatar: string;
+  onAvatarSelect: (avatar: string) => void;
+  label?: string;
+  error?: string;
 }
 
 const avatars = [
-  { id: "guy-1", name: "Guy 1", src: "/images/avatars/guy-1.svg" },
-  { id: "guy-2", name: "Guy 2", src: "/images/avatars/guy-2.svg" },
-  { id: "guy-3", name: "Guy 3", src: "/images/avatars/guy-3.svg" },
-  { id: "guy-4", name: "Guy 4", src: "/images/avatars/guy-4.svg" },
-  { id: "woman-1", name: "Woman 1", src: "/images/avatars/woman-1.svg" },
-  { id: "woman-2", name: "Woman 2", src: "/images/avatars/woman-2.svg" },
-  { id: "woman-3", name: "Woman 3", src: "/images/avatars/woman-3.svg" },
-  { id: "woman-4", name: "Woman 4", src: "/images/avatars/woman-4.svg" },
-  { id: "woman-5", name: "Woman 5", src: "/images/avatars/woman-5.svg" },
-]
+  { id: 'guy-1', name: 'Guy 1', src: '/images/avatars/guy-1.svg' },
+  { id: 'guy-2', name: 'Guy 2', src: '/images/avatars/guy-2.svg' },
+  { id: 'guy-3', name: 'Guy 3', src: '/images/avatars/guy-3.svg' },
+  { id: 'guy-4', name: 'Guy 4', src: '/images/avatars/guy-4.svg' },
+  { id: 'woman-1', name: 'Woman 1', src: '/images/avatars/woman-1.svg' },
+  { id: 'woman-2', name: 'Woman 2', src: '/images/avatars/woman-2.svg' },
+  { id: 'woman-3', name: 'Woman 3', src: '/images/avatars/woman-3.svg' },
+  { id: 'woman-4', name: 'Woman 4', src: '/images/avatars/woman-4.svg' },
+  { id: 'woman-5', name: 'Woman 5', src: '/images/avatars/woman-5.svg' },
+];
 
-export function AvatarSelector({ selectedAvatar, onAvatarSelect, label, error }: AvatarSelectorProps) {
-  const [isOpen, setIsOpen] = useState(false)
+export function AvatarSelector({
+  selectedAvatar,
+  onAvatarSelect,
+  label,
+  error,
+}: AvatarSelectorProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const selectedAvatarData = avatars.find((avatar) => avatar.src === selectedAvatar)
+  const selectedAvatarData = avatars.find(
+    (avatar) => avatar.src === selectedAvatar
+  );
 
   return (
     <div className="space-y-2">
@@ -40,8 +47,8 @@ export function AvatarSelector({ selectedAvatar, onAvatarSelect, label, error }:
         <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-light-blue-gray/20 dark:border-royal-blue/30 bg-light-blue-gray/10 dark:bg-royal-blue/10">
           {selectedAvatar ? (
             <Image
-              src={selectedAvatar || "/placeholder.svg"}
-              alt={selectedAvatarData?.name || "Avatar sélectionné"}
+              src={selectedAvatar || '/placeholder.svg'}
+              alt={selectedAvatarData?.name || 'Avatar sélectionné'}
               width={64}
               height={64}
               className="w-full h-full object-cover"
@@ -57,7 +64,7 @@ export function AvatarSelector({ selectedAvatar, onAvatarSelect, label, error }:
           onClick={() => setIsOpen(!isOpen)}
           className="px-4 py-2 border border-light-blue-gray/20 dark:border-royal-blue/30 rounded-md hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10 text-primary-text dark:text-dark-base-text focus:outline-none focus:ring-2 focus:ring-royal-blue transition-colors"
         >
-          {selectedAvatar ? "Changer d'avatar" : "Choisir un avatar"}
+          {selectedAvatar ? "Changer d'avatar" : 'Choisir un avatar'}
         </button>
       </div>
 
@@ -70,17 +77,17 @@ export function AvatarSelector({ selectedAvatar, onAvatarSelect, label, error }:
                 key={avatar.id}
                 type="button"
                 onClick={() => {
-                  onAvatarSelect(avatar.src)
-                  setIsOpen(false)
+                  onAvatarSelect(avatar.src);
+                  setIsOpen(false);
                 }}
                 className={`w-16 h-16 rounded-full overflow-hidden border-2 transition-all hover:scale-105 ${
                   selectedAvatar === avatar.src
-                    ? "border-royal-blue ring-2 ring-royal-blue/20"
-                    : "border-light-blue-gray/20 dark:border-royal-blue/30 hover:border-royal-blue/50"
+                    ? 'border-royal-blue ring-2 ring-royal-blue/20'
+                    : 'border-light-blue-gray/20 dark:border-royal-blue/30 hover:border-royal-blue/50'
                 }`}
               >
                 <Image
-                  src={avatar.src || "/placeholder.svg"}
+                  src={avatar.src || '/placeholder.svg'}
                   alt={avatar.name}
                   width={64}
                   height={64}
@@ -102,5 +109,5 @@ export function AvatarSelector({ selectedAvatar, onAvatarSelect, label, error }:
       {/* Message d'erreur */}
       {error && <p className="text-sm text-soft-error-red">{error}</p>}
     </div>
-  )
+  );
 }

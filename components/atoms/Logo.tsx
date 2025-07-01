@@ -1,5 +1,5 @@
-import Link from "next/link"
-import Image from "next/image"
+import Link from 'next/link';
+import Image from 'next/image';
 
 export function Logo() {
   return (
@@ -12,5 +12,5 @@ export function Logo() {
         className="w-16 h-16 group-hover:scale-110 transition-transform duration-300 group-hover:drop-shadow-lg"
       />
     </Link>
-  )
+  );
 }

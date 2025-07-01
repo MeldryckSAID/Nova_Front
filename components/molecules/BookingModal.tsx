@@ -1,107 +1,133 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import type { Helper, TimeSlot, BookingRequest } from "../../types"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import type { Helper, TimeSlot, BookingRequest } from '../../types';
 
 interface BookingModalProps {
-  helper: Helper
-  onBookingSubmit: (booking: Omit<BookingRequest, "id" | "createdAt">) => void
-  children: React.ReactNode
+  helper: Helper;
+  onBookingSubmit: (booking: Omit<BookingRequest, 'id' | 'createdAt'>) => void;
+  children: React.ReactNode;
 }
 
-export function BookingModal({ helper, onBookingSubmit, children }: BookingModalProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedSlot, setSelectedSlot] = useState<string>("")
-  const [requestedDate, setRequestedDate] = useState("")
-  const [message, setMessage] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+export function BookingModal({
+  helper,
+  onBookingSubmit,
+  children,
+}: BookingModalProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<string>('');
+  const [requestedDate, setRequestedDate] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError('');
 
     if (!selectedSlot) {
-      setError("Veuillez sélectionner un créneau")
-      return
+      setError('Veuillez sélectionner un créneau');
+      return;
     }
     if (!requestedDate) {
-      setError("Veuillez sélectionner une date")
-      return
+      setError('Veuillez sélectionner une date');
+      return;
     }
 
     // Vérifier que la date est dans le futur
-    const selectedDate = new Date(requestedDate)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const selectedDate = new Date(requestedDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     if (selectedDate < today) {
-      setError("Veuillez sélectionner une date future")
-      return
+      setError('Veuillez sélectionner une date future');
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
       // Récupérer l'utilisateur connecté
-      const currentUser = JSON.parse(localStorage.getItem("user") || "{}")
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
 
       if (!currentUser.id) {
-        setError("Vous devez être connecté pour réserver")
-        return
+        setError('Vous devez être connecté pour réserver');
+        return;
       }
 
-      const booking: Omit<BookingRequest, "id" | "createdAt"> = {
+      const booking: Omit<BookingRequest, 'id' | 'createdAt'> = {
         studentId: currentUser.id,
         helperId: helper.id,
         timeSlotId: selectedSlot,
         requestedDate,
         message: message.trim() || undefined,
-        status: "pending",
-      }
+        status: 'pending',
+      };
 
-      onBookingSubmit(booking)
+      onBookingSubmit(booking);
 
       // Réinitialiser le formulaire
-      setSelectedSlot("")
-      setRequestedDate("")
-      setMessage("")
-      setIsOpen(false)
+      setSelectedSlot('');
+      setRequestedDate('');
+      setMessage('');
+      setIsOpen(false);
     } catch (err) {
-      setError("Une erreur est survenue")
+      setError('Une erreur est survenue');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   // Générer les dates disponibles pour les 4 prochaines semaines
   const getAvailableDates = (timeSlot: TimeSlot) => {
-    const dates = []
-    const today = new Date()
+    const dates = [];
+    const today = new Date();
 
     for (let i = 1; i <= 28; i++) {
-      const date = new Date(today)
-      date.setDate(today.getDate() + i)
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
 
       // Vérifier si le jour correspond au créneau
-      const dayNames = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
+      const dayNames = [
+        'Dimanche',
+        'Lundi',
+        'Mardi',
+        'Mercredi',
+        'Jeudi',
+        'Vendredi',
+        'Samedi',
+      ];
       if (dayNames[date.getDay()] === timeSlot.day) {
-        dates.push(date.toISOString().split("T")[0])
+        dates.push(date.toISOString().split('T')[0]);
       }
     }
 
-    return dates
-  }
+    return dates;
+  };
 
-  const selectedTimeSlot = helper.timeSlots.find((slot) => slot.id === selectedSlot)
+  const selectedTimeSlot = helper.timeSlots.find(
+    (slot) => slot.id === selectedSlot
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -167,11 +193,11 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
                       value={date}
                       className="text-primary-text dark:text-dark-base-text hover:bg-light-blue-gray/10 dark:hover:bg-royal-blue/10"
                     >
-                      {new Date(date).toLocaleDateString("fr-FR", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
+                      {new Date(date).toLocaleDateString('fr-FR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
                       })}
                     </SelectItem>
                   ))}
@@ -203,7 +229,7 @@ export function BookingModal({ helper, onBookingSubmit, children }: BookingModal
               disabled={loading}
               className="flex-1 bg-royal-blue hover:bg-royal-blue/90 text-white"
             >
-              {loading ? "Envoi..." : "Envoyer la demande"}
+              {loading ? 'Envoi...' : 'Envoyer la demande'}
             </Button>
             <Button
               type="button"

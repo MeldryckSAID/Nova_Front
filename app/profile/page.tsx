@@ -1,102 +1,102 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { ScrollHeader } from "../../components/organisms/ScrollHeader"
-import { Footer } from "../../components/organisms/Footer"
-import { MultiSelect } from "../../components/molecules/MultiSelect"
-import { AvatarSelector } from "../../components/molecules/AvatarSelector"
-import { Avatar } from "../../components/atoms/Avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ScrollHeader } from '../../components/organisms/ScrollHeader';
+import { Footer } from '../../components/organisms/Footer';
+import { MultiSelect } from '../../components/molecules/MultiSelect';
+import { AvatarSelector } from '../../components/molecules/AvatarSelector';
+import { Avatar } from '../../components/atoms/Avatar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const specialtyOptions = [
-  "Mathématiques",
-  "Programmation",
-  "Langues étrangères",
-  "Sciences physiques",
-  "Histoire-Géographie",
-  "Littérature",
-  "Arts plastiques",
-  "Musique",
-  "Économie",
-  "Philosophie",
-  "Biologie",
-  "Chimie",
-  "Informatique",
-  "Marketing",
-  "Comptabilité",
-  "Droit",
-  "Psychologie",
-  "Architecture",
-  "Design graphique",
-  "Photographie",
-]
+  'Mathématiques',
+  'Programmation',
+  'Langues étrangères',
+  'Sciences physiques',
+  'Histoire-Géographie',
+  'Littérature',
+  'Arts plastiques',
+  'Musique',
+  'Économie',
+  'Philosophie',
+  'Biologie',
+  'Chimie',
+  'Informatique',
+  'Marketing',
+  'Comptabilité',
+  'Droit',
+  'Psychologie',
+  'Architecture',
+  'Design graphique',
+  'Photographie',
+];
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<any>(null);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    avatar: "",
-    needs: "",
+    name: '',
+    email: '',
+    avatar: '',
+    needs: '',
     specialties: [] as string[],
-  })
-  const [isEditing, setIsEditing] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState("")
-  const [error, setError] = useState("")
-  const router = useRouter()
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user")
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      setUser(userData)
+      const userData = JSON.parse(savedUser);
+      setUser(userData);
       setFormData({
-        name: userData.name || "",
-        email: userData.email || "",
-        avatar: userData.avatar || "",
-        needs: userData.needs || "",
+        name: userData.name || '',
+        email: userData.email || '',
+        avatar: userData.avatar || '',
+        needs: userData.needs || '',
         specialties: userData.specialties || [],
-      })
+      });
     } else {
-      router.push("/connexion")
+      router.push('/connexion');
     }
-  }, [router])
+  }, [router]);
 
   const handleChange = (field: string) => (value: string | string[]) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSave = async () => {
-    setLoading(true)
-    setError("")
-    setSuccess("")
+    setLoading(true);
+    setError('');
+    setSuccess('');
 
     try {
       if (!formData.name.trim()) {
-        setError("Le nom est requis")
-        return
+        setError('Le nom est requis');
+        return;
       }
       if (!formData.email.trim()) {
-        setError("L'email est requis")
-        return
+        setError("L'email est requis");
+        return;
       }
       if (!formData.avatar) {
-        setError("Veuillez choisir un avatar")
-        return
+        setError('Veuillez choisir un avatar');
+        return;
       }
       if (formData.specialties.length === 0) {
-        setError("Veuillez sélectionner au moins une spécialité")
-        return
+        setError('Veuillez sélectionner au moins une spécialité');
+        return;
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const updatedUser = {
         ...user,
@@ -105,34 +105,34 @@ export default function ProfilePage() {
         avatar: formData.avatar,
         needs: formData.needs,
         specialties: formData.specialties,
-      }
+      };
 
-      localStorage.setItem("user", JSON.stringify(updatedUser))
-      setUser(updatedUser)
-      setIsEditing(false)
-      setSuccess("Profil mis à jour avec succès !")
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      setIsEditing(false);
+      setSuccess('Profil mis à jour avec succès !');
 
-      setTimeout(() => setSuccess(""), 3000)
+      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError("Erreur lors de la sauvegarde")
+      setError('Erreur lors de la sauvegarde');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCancel = () => {
     setFormData({
-      name: user.name || "",
-      email: user.email || "",
-      avatar: user.avatar || "",
-      needs: user.needs || "",
+      name: user.name || '',
+      email: user.email || '',
+      avatar: user.avatar || '',
+      needs: user.needs || '',
       specialties: user.specialties || [],
-    })
-    setIsEditing(false)
-    setError("")
-  }
+    });
+    setIsEditing(false);
+    setError('');
+  };
 
-  if (!user) return null
+  if (!user) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -188,7 +188,7 @@ export default function ProfilePage() {
                         Vos besoins
                       </h3>
                       <p className="text-primary-text/70 dark:text-dark-base-text/70 bg-light-blue-gray/10 dark:bg-royal-blue/10 p-4 rounded-lg">
-                        {user.needs || "Aucun besoin spécifique renseigné."}
+                        {user.needs || 'Aucun besoin spécifique renseigné.'}
                       </p>
                     </div>
 
@@ -228,7 +228,7 @@ export default function ProfilePage() {
                       <Input
                         id="name"
                         value={formData.name}
-                        onChange={(e) => handleChange("name")(e.target.value)}
+                        onChange={(e) => handleChange('name')(e.target.value)}
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                       />
                     </div>
@@ -244,7 +244,7 @@ export default function ProfilePage() {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleChange("email")(e.target.value)}
+                        onChange={(e) => handleChange('email')(e.target.value)}
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                       />
                     </div>
@@ -252,11 +252,10 @@ export default function ProfilePage() {
                     <AvatarSelector
                       label="Avatar"
                       selectedAvatar={formData.avatar}
-                      onAvatarSelect={handleChange("avatar")}
+                      onAvatarSelect={handleChange('avatar')}
                       error={
                         !formData.avatar
-                          ? "Veuillez choisir un avatar"
-                          : undefined
+                          ? 'Veuillez choisir un avatar'
                       }
                     />
 
@@ -270,7 +269,7 @@ export default function ProfilePage() {
                       <Textarea
                         id="needs"
                         value={formData.needs}
-                        onChange={(e) => handleChange("needs")(e.target.value)}
+                        onChange={(e) => handleChange('needs')(e.target.value)}
                         rows={4}
                         placeholder="Décrivez vos besoins d'apprentissage..."
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text placeholder:text-primary-text/50 dark:placeholder:text-dark-base-text/50"
@@ -281,13 +280,13 @@ export default function ProfilePage() {
                       label="Spécialités d'intérêt *"
                       options={specialtyOptions}
                       selected={formData.specialties}
-                      onChange={handleChange("specialties")}
+                      onChange={handleChange('specialties')}
                       placeholder="Sélectionnez vos domaines d'intérêt..."
                       minSelection={1}
                       maxSelection={5}
                       error={
                         formData.specialties.length === 0
-                          ? "Sélectionnez au moins une spécialité"
+                          ? 'Sélectionnez au moins une spécialité'
                           : undefined
                       }
                     />
@@ -298,7 +297,7 @@ export default function ProfilePage() {
                         disabled={loading}
                         className="bg-royal-blue hover:bg-royal-blue/90 text-white"
                       >
-                        {loading ? "Sauvegarde..." : "Sauvegarder"}
+                        {loading ? 'Sauvegarde...' : 'Sauvegarder'}
                       </Button>
                       <Button
                         variant="outline"

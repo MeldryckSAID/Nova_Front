@@ -1,111 +1,112 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { ScrollHeader } from "../../components/organisms/ScrollHeader"
-import { Footer } from "../../components/organisms/Footer"
-import { MultiSelect } from "../../components/molecules/MultiSelect"
-import { AvatarSelector } from "../../components/molecules/AvatarSelector"
-import { TimeSlotSelector } from "../../components/molecules/TimeSlotSelector"
-import { Avatar } from "../../components/atoms/Avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import type { Helper, TimeSlot } from "../../types"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ScrollHeader } from '../../components/organisms/ScrollHeader';
+import { Footer } from '../../components/organisms/Footer';
+import { MultiSelect } from '../../components/molecules/MultiSelect';
+import { AvatarSelector } from '../../components/molecules/AvatarSelector';
+import { TimeSlotSelector } from '../../components/molecules/TimeSlotSelector';
+import { Avatar } from '../../components/atoms/Avatar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import type { Helper, TimeSlot } from '../../types';
 
 const specialtyOptions = [
-  "Mathématiques",
-  "Programmation",
-  "Langues étrangères",
-  "Sciences physiques",
-  "Histoire-Géographie",
-  "Littérature",
-  "Arts plastiques",
-  "Musique",
-  "Économie",
-  "Philosophie",
-  "Biologie",
-  "Chimie",
-  "Informatique",
-  "Marketing",
-  "Comptabilité",
-  "Droit",
-  "Psychologie",
-  "Architecture",
-  "Design graphique",
-  "Photographie",
-]
+  'Mathématiques',
+  'Programmation',
+  'Langues étrangères',
+  'Sciences physiques',
+  'Histoire-Géographie',
+  'Littérature',
+  'Arts plastiques',
+  'Musique',
+  'Économie',
+  'Philosophie',
+  'Biologie',
+  'Chimie',
+  'Informatique',
+  'Marketing',
+  'Comptabilité',
+  'Droit',
+  'Psychologie',
+  'Architecture',
+  'Design graphique',
+  'Photographie',
+];
 
 export default function HelperProfilePage() {
-  const [helper, setHelper] = useState<Helper | null>(null)
+  const [helper, setHelper] = useState<Helper | null>(null);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    avatar: "",
-    description: "",
+    name: '',
+    email: '',
+    avatar: '',
+    description: '',
     specialties: [] as string[],
     timeSlots: [] as TimeSlot[],
-  })
-  const [isEditing, setIsEditing] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState("")
-  const [error, setError] = useState("")
-  const router = useRouter()
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("user")
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      const userData = JSON.parse(savedUser)
-      if (userData.userType === "helper") {
-        setHelper(userData)
+      const userData = JSON.parse(savedUser);
+      if (userData.userType === 'helper') {
+        setHelper(userData);
         setFormData({
-          name: userData.name || "",
-          email: userData.email || "",
-          avatar: userData.avatar || "",
-          description: userData.description || "",
+          name: userData.name || '',
+          email: userData.email || '',
+          avatar: userData.avatar || '',
+          description: userData.description || '',
           specialties: userData.specialties || [],
           timeSlots: userData.timeSlots || [],
-        })
+        });
       } else {
-        router.push("/dashboard")
+        router.push('/dashboard');
       }
     } else {
-      router.push("/connexion")
+      router.push('/connexion');
     }
-  }, [router])
+  }, [router]);
 
-  const handleChange = (field: string) => (value: string | string[] | TimeSlot[]) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+  const handleChange =
+    (field: string) => (value: string | string[] | TimeSlot[]) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    };
 
   const handleSave = async () => {
-    setLoading(true)
-    setError("")
-    setSuccess("")
+    setLoading(true);
+    setError('');
+    setSuccess('');
 
     try {
       if (!formData.name.trim()) {
-        setError("Le nom est requis")
-        return
+        setError('Le nom est requis');
+        return;
       }
       if (!formData.email.trim()) {
-        setError("L'email est requis")
-        return
+        setError("L'email est requis");
+        return;
       }
       if (!formData.avatar) {
-        setError("Veuillez choisir un avatar")
-        return
+        setError('Veuillez choisir un avatar');
+        return;
       }
       if (formData.specialties.length === 0) {
-        setError("Veuillez sélectionner au moins une spécialité")
-        return
+        setError('Veuillez sélectionner au moins une spécialité');
+        return;
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const updatedHelper = {
         ...helper,
@@ -115,42 +116,44 @@ export default function HelperProfilePage() {
         description: formData.description,
         specialties: formData.specialties,
         timeSlots: formData.timeSlots,
-      }
+      };
 
       // Mettre à jour dans localStorage
-      localStorage.setItem("user", JSON.stringify(updatedHelper))
+      localStorage.setItem('user', JSON.stringify(updatedHelper));
 
       // Mettre à jour dans la liste des helpers
-      const allHelpers = JSON.parse(localStorage.getItem("helpers") || "[]")
-      const updatedHelpers = allHelpers.map((h: Helper) => (h.id === helper?.id ? updatedHelper : h))
-      localStorage.setItem("helpers", JSON.stringify(updatedHelpers))
+      const allHelpers = JSON.parse(localStorage.getItem('helpers') || '[]');
+      const updatedHelpers = allHelpers.map((h: Helper) =>
+        h.id === helper?.id ? updatedHelper : h
+      );
+      localStorage.setItem('helpers', JSON.stringify(updatedHelpers));
 
-      setHelper(updatedHelper)
-      setIsEditing(false)
-      setSuccess("Profil mis à jour avec succès !")
+      setHelper(updatedHelper);
+      setIsEditing(false);
+      setSuccess('Profil mis à jour avec succès !');
 
-      setTimeout(() => setSuccess(""), 3000)
+      setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
-      setError("Erreur lors de la sauvegarde")
+      setError('Erreur lors de la sauvegarde');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCancel = () => {
     setFormData({
-      name: helper?.name || "",
-      email: helper?.email || "",
-      avatar: helper?.avatar || "",
-      description: helper?.description || "",
+      name: helper?.name || '',
+      email: helper?.email || '',
+      avatar: helper?.avatar || '',
+      description: helper?.description || '',
       specialties: helper?.specialties || [],
       timeSlots: helper?.timeSlots || [],
-    })
-    setIsEditing(false)
-    setError("")
-  }
+    });
+    setIsEditing(false);
+    setError('');
+  };
 
-  if (!helper) return null
+  if (!helper) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -214,7 +217,7 @@ export default function HelperProfilePage() {
                         Description
                       </h3>
                       <p className="text-primary-text/70 dark:text-dark-base-text/70 bg-light-blue-gray/10 dark:bg-royal-blue/10 p-4 rounded-lg border-light-blue-gray/20 dark:border-royal-blue/30">
-                        {helper.description || "Aucune description renseignée."}
+                        {helper.description || 'Aucune description renseignée.'}
                       </p>
                     </div>
 
@@ -265,11 +268,11 @@ export default function HelperProfilePage() {
                                 <Badge
                                   className={
                                     slot.isRecurring
-                                      ? "bg-royal-blue text-white border-royal-blue/20"
-                                      : "bg-royal-blue/20 text-royal-blue border-royal-blue/30"
+                                      ? 'bg-royal-blue text-white border-royal-blue/20'
+                                      : 'bg-royal-blue/20 text-royal-blue border-royal-blue/30'
                                   }
                                 >
-                                  {slot.isRecurring ? "Récurrent" : "Ponctuel"}
+                                  {slot.isRecurring ? 'Récurrent' : 'Ponctuel'}
                                 </Badge>
                               </div>
                             </Card>
@@ -294,7 +297,7 @@ export default function HelperProfilePage() {
                       <Input
                         id="name"
                         value={formData.name}
-                        onChange={(e) => handleChange("name")(e.target.value)}
+                        onChange={(e) => handleChange('name')(e.target.value)}
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/30 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text placeholder:text-primary-text/50 dark:placeholder:text-dark-base-text/50 focus:border-royal-blue focus:ring-royal-blue/20"
                       />
                     </div>
@@ -310,7 +313,7 @@ export default function HelperProfilePage() {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleChange("email")(e.target.value)}
+                        onChange={(e) => handleChange('email')(e.target.value)}
                         className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/30 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text placeholder:text-primary-text/50 dark:placeholder:text-dark-base-text/50 focus:border-royal-blue focus:ring-royal-blue/20"
                       />
                     </div>
@@ -318,10 +321,10 @@ export default function HelperProfilePage() {
                     <AvatarSelector
                       label="Avatar"
                       selectedAvatar={formData.avatar}
-                      onAvatarSelect={handleChange("avatar")}
+                      onAvatarSelect={handleChange('avatar')}
                       error={
                         !formData.avatar
-                          ? "Veuillez choisir un avatar"
+                          ? 'Veuillez choisir un avatar'
                           : undefined
                       }
                     />
@@ -337,7 +340,7 @@ export default function HelperProfilePage() {
                         id="description"
                         value={formData.description}
                         onChange={(e) =>
-                          handleChange("description")(e.target.value)
+                          handleChange('description')(e.target.value)
                         }
                         rows={4}
                         placeholder="Présentez-vous et décrivez votre approche pédagogique..."
@@ -349,13 +352,13 @@ export default function HelperProfilePage() {
                       label="Spécialités *"
                       options={specialtyOptions}
                       selected={formData.specialties}
-                      onChange={handleChange("specialties")}
+                      onChange={handleChange('specialties')}
                       placeholder="Sélectionnez vos domaines d'expertise..."
                       minSelection={1}
                       maxSelection={10}
                       error={
                         formData.specialties.length === 0
-                          ? "Sélectionnez au moins une spécialité"
+                          ? 'Sélectionnez au moins une spécialité'
                           : undefined
                       }
                     />
@@ -366,7 +369,7 @@ export default function HelperProfilePage() {
                       </h3>
                       <TimeSlotSelector
                         timeSlots={formData.timeSlots}
-                        onChange={handleChange("timeSlots")}
+                        onChange={handleChange('timeSlots')}
                         maxSlots={5}
                       />
                     </div>
@@ -377,7 +380,7 @@ export default function HelperProfilePage() {
                         disabled={loading}
                         className="bg-royal-blue hover:bg-royal-blue/90 text-white"
                       >
-                        {loading ? "Sauvegarde..." : "Sauvegarder"}
+                        {loading ? 'Sauvegarde...' : 'Sauvegarder'}
                       </Button>
                       <Button
                         variant="outline"
