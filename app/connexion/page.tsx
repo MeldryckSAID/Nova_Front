@@ -18,25 +18,32 @@ import url from '@/src/outils/generalUrl'
 export default function ConnexionPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
+    lastname: '',
+    firstname: '',
     email: '',
     password: '',
-    name: '',
-    needs: '',
-    specialties: [] as string[],
+    sexe: '',
+    birthdate: '',
+    role: '',
+    SkillsCategory: [] as number[],
     avatar: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [categoriesOptions, setCategoriesOptions] = useState<string[]>([]);
+  const [categoriesOptions, setCategoriesOptions] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(`${url.value}categories/all`);
         const data = await res.json();
-        setCategoriesOptions(data.categories || []);
+        setCategoriesOptions(
+          Array.isArray(data)
+            ? data.map((cat: any) => ({ id: cat.id, name: cat.name }))
+            : []
+        );
       } catch {
         setCategoriesOptions([]);
       }
@@ -44,22 +51,37 @@ export default function ConnexionPage() {
     fetchCategories();
   }, []);
 
-  const handleChange = (field: string) => (value: string | string[]) => {
+  const handleChange = (field: string) => (value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const validateForm = () => {
-    if (!isLogin && formData.specialties.length === 0) {
-      setError('Veuillez sélectionner au moins une spécialité');
-      return false;
-    }
-    if (!isLogin && formData.specialties.length > 5) {
-      setError('Vous ne pouvez sélectionner que 5 spécialités maximum');
-      return false;
-    }
-    if (!isLogin && !formData.avatar) {
-      setError('Veuillez choisir un avatar');
-      return false;
+    if (isLogin) {
+      if (!formData.email.trim() || !formData.password.trim()) {
+        setError('Email et mot de passe requis');
+        return false;
+      }
+    } else {
+      if (!formData.lastname.trim() || !formData.firstname.trim()) {
+        setError('Nom et prénom requis');
+        return false;
+      }
+      if (!formData.email.trim() || !formData.password.trim()) {
+        setError('Email et mot de passe requis');
+        return false;
+      }
+      if (formData.SkillsCategory.length === 0) {
+        setError('Veuillez sélectionner au moins une spécialité');
+        return false;
+      }
+      if (!formData.avatar) {
+        setError('Veuillez choisir un avatar');
+        return false;
+      }
+      if (!formData.role) {
+        setError('Veuillez choisir un rôle');
+        return false;
+      }
     }
     return true;
   };
@@ -67,103 +89,23 @@ export default function ConnexionPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-
     if (!validateForm()) return;
-
     setLoading(true);
 
     try {
       if (isLogin) {
-        // Vérifier les comptes de test
-        const testAccounts = [
-          { email: 'rachel@example.com', type: 'student' },
-          { email: 'jeremie@example.com', type: 'helper' },
-          { email: 'david@example.com', type: 'helper' },
-        ];
-
-        const account = testAccounts.find(
-          (acc) => acc.email === formData.email
-        );
-
-        if (account && formData.password === 'password') {
-          const mockUser = {
-            id:
-              account.email === 'rachel@example.com'
-                ? 'user-1'
-                : account.email === 'jeremie@example.com'
-                  ? '1'
-                  : '2',
-            name:
-              account.email === 'rachel@example.com'
-                ? 'Rachel'
-                : account.email === 'jeremie@example.com'
-                  ? 'Jeremie Malcom'
-                  : 'David',
+        // Connexion
+        const res = await fetch(`${url.value}auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             email: formData.email,
-            avatar:
-              account.email === 'rachel@example.com'
-                ? '/images/avatars/woman-1.svg'
-                : account.email === 'jeremie@example.com'
-                  ? '/images/avatars/guy-1.svg'
-                  : '/images/avatars/guy-2.svg',
-            userType: account.type,
-            ...(account.type === 'student' && {
-              needs:
-                "Je recherche un helper compréhensif et disponible lors des après midi pour m'aider sur un sujet sur la comptabilité.",
-              specialties: ['Comptabilité', 'Économie'],
-              contactedHelpers: ['1', '2', '4'],
-            }),
-            ...(account.type === 'helper' && {
-              specialties:
-                account.email === 'jeremie@example.com'
-                  ? ['Développement', 'Programmation']
-                  : ['Programmation', 'Informatique'],
-              timeSlots:
-                account.email === 'jeremie@example.com'
-                  ? [
-                      {
-                        id: 'slot-1',
-                        day: 'Lundi',
-                        startTime: '19:00',
-                        endTime: '21:00',
-                        isRecurring: true,
-                      },
-                      {
-                        id: 'slot-2',
-                        day: 'Mercredi',
-                        startTime: '19:00',
-                        endTime: '21:00',
-                        isRecurring: true,
-                      },
-                    ]
-                  : [
-                      {
-                        id: 'slot-3',
-                        day: 'Mardi',
-                        startTime: '14:00',
-                        endTime: '18:00',
-                        isRecurring: true,
-                      },
-                      {
-                        id: 'slot-4',
-                        day: 'Jeudi',
-                        startTime: '14:00',
-                        endTime: '18:00',
-                        isRecurring: true,
-                      },
-                    ],
-              description:
-                account.email === 'jeremie@example.com'
-                  ? 'Développeur expérimenté spécialisé en JavaScript et React'
-                  : "Full-stack developer avec 5 ans d'expérience",
-              rating: account.email === 'jeremie@example.com' ? 4.5 : 4.8,
-              totalSessions: account.email === 'jeremie@example.com' ? 10 : 25,
-              status: 'available',
-            }),
-          };
-
-          localStorage.setItem('user', JSON.stringify(mockUser));
-
+            password: formData.password,
+          }),
+        });
+        const account = await res.json();
+        if (res.ok && account) {
+          localStorage.setItem('user', JSON.stringify(account));
           if (account.type === 'helper') {
             router.push('/helper-dashboard');
           } else {
@@ -173,18 +115,20 @@ export default function ConnexionPage() {
           setError('Identifiants incorrects');
         }
       } else {
-        const newUser = {
-          id: `user-${Date.now()}`,
-          name: formData.name,
-          email: formData.email,
-          avatar: formData.avatar,
-          needs: formData.needs || '',
-          specialties: formData.specialties,
-          contactedHelpers: [],
-          userType: 'student',
-        };
-        localStorage.setItem('user', JSON.stringify(newUser));
-        router.push('/dashboard');
+        // Inscription
+        const res = await fetch(`${url.value}auth/inscription`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        if (res.ok && data) {
+          localStorage.setItem('user', JSON.stringify(data));
+          router.push('/dashboard');
+        } else {
+          setError(data?.message || "Erreur lors de l'inscription");
+          console.log('Erreur API:', data?.message);
+        }
       }
     } catch (err) {
       setError('Une erreur est survenue');
@@ -216,24 +160,60 @@ export default function ConnexionPage() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {!isLogin && (
+                  {!isLogin ? (
                     <>
                       <div>
-                        <Label
-                          htmlFor="name"
-                          className="text-primary-text dark:text-dark-base-text"
-                        >
-                          Nom complet *
+                        <Label htmlFor="lastname" className="text-primary-text dark:text-dark-base-text">
+                          Nom *
                         </Label>
                         <Input
-                          id="name"
-                          value={formData.name}
-                          onChange={(e) => handleChange('name')(e.target.value)}
-                          required={!isLogin}
+                          id="lastname"
+                          value={formData.lastname}
+                          onChange={(e) => handleChange('lastname')(e.target.value)}
+                          required
                           className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                         />
                       </div>
-
+                      <div>
+                        <Label htmlFor="firstname" className="text-primary-text dark:text-dark-base-text">
+                          Prénom *
+                        </Label>
+                        <Input
+                          id="firstname"
+                          value={formData.firstname}
+                          onChange={(e) => handleChange('firstname')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="sexe" className="text-primary-text dark:text-dark-base-text">
+                          Sexe
+                        </Label>
+                        <select
+                          id="sexe"
+                          value={formData.sexe}
+                          onChange={(e) => handleChange('sexe')(e.target.value)}
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text rounded-md w-full py-2 px-3"
+                          required
+                        >
+                          <option value="">Sélectionnez</option>
+                          <option value="Homme">Homme</option>
+                          <option value="Femme">Femme</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label htmlFor="birthdate" className="text-primary-text dark:text-dark-base-text">
+                          Date de naissance
+                        </Label>
+                        <Input
+                          id="birthdate"
+                          type="date"
+                          value={formData.birthdate}
+                          onChange={(e) => handleChange('birthdate')(e.target.value)}
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
                       <AvatarSelector
                         label="Choisissez votre avatar"
                         selectedAvatar={formData.avatar}
@@ -244,91 +224,111 @@ export default function ConnexionPage() {
                             : undefined
                         }
                       />
-                    </>
-                  )}
-
-                  <div>
-                    <Label
-                      htmlFor="email"
-                      className="text-primary-text dark:text-dark-base-text"
-                    >
-                      Email *
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => handleChange('email')(e.target.value)}
-                      required
-                      className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
-                    />
-                  </div>
-
-                  <div>
-                    <Label
-                      htmlFor="password"
-                      className="text-primary-text dark:text-dark-base-text"
-                    >
-                      Mot de passe *
-                    </Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => handleChange('password')(e.target.value)}
-                      required
-                      className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
-                    />
-                  </div>
-
-                  {!isLogin && (
-                    <>
-                      <div>
-                        <Label
-                          htmlFor="needs"
-                          className="text-primary-text dark:text-dark-base-text"
-                        >
-                          Vos besoins (facultatif)
+                      {/* <div>
+                        <Label htmlFor="Skill" className="text-primary-text dark:text-dark-base-text">
+                          Compétences (facultatif)
                         </Label>
-                        <Textarea
-                          id="needs"
-                          value={formData.needs}
+                        <Input
+                          id="Skill"
+                          value={formData.Skill.join(', ')}
                           onChange={(e) =>
-                            handleChange('needs')(e.target.value)
+                            handleChange('Skill')(e.target.value.split(',').map((s: string) => s.trim()))
                           }
-                          rows={3}
-                          placeholder="Décrivez vos besoins d'apprentissage..."
+                          placeholder="Ex: React, Node.js"
                           className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
                         />
-                      </div>
-
+                      </div> */}
                       <MultiSelect
                         label="Spécialités d'intérêt *"
                         options={categoriesOptions}
-                        selected={formData.specialties}
-                        onChange={handleChange('specialties')}
+                        selected={formData.SkillsCategory}
+                        onChange={handleChange('SkillsCategory')}
                         placeholder="Sélectionnez vos domaines d'intérêt..."
                         minSelection={1}
-                        maxSelection={5}
                         error={
-                          formData.specialties.length === 0
+                          formData.SkillsCategory.length === 0
                             ? 'Sélectionnez au moins une spécialité'
                             : undefined
                         }
                       />
+                      <div>
+                        <Label htmlFor="email" className="text-primary-text dark:text-dark-base-text">
+                          Email *
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleChange('email')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="password" className="text-primary-text dark:text-dark-base-text">
+                          Mot de passe *
+                        </Label>
+                        <Input
+                          id="password"
+                          type="password"
+                          value={formData.password}
+                          onChange={(e) => handleChange('password')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="role" className="text-primary-text dark:text-dark-base-text">
+                          Rôle *
+                        </Label>
+                        <select
+                          id="role"
+                          value={formData.role}
+                          onChange={(e) => handleChange('role')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text rounded-md w-full py-2 px-3"
+                        >
+                          <option value="">Sélectionnez un rôle</option>
+                          <option value="student">Étudiant</option>
+                          <option value="helper">Helper</option>
+                        </select>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <Label htmlFor="email" className="text-primary-text dark:text-dark-base-text">
+                          Email *
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => handleChange('email')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="password" className="text-primary-text dark:text-dark-base-text">
+                          Mot de passe *
+                        </Label>
+                        <Input
+                          id="password"
+                          type="password"
+                          value={formData.password}
+                          onChange={(e) => handleChange('password')(e.target.value)}
+                          required
+                          className="bg-white dark:bg-blue-gray-dark border-light-blue-gray/20 dark:border-royal-blue/30 text-primary-text dark:text-dark-base-text"
+                        />
+                      </div>
                     </>
                   )}
 
                   <Button
                     type="submit"
                     className="w-full bg-royal-blue hover:bg-royal-blue/90 text-white"
-                    disabled={
-                      loading ||
-                      (!isLogin &&
-                        (formData.specialties.length === 0 ||
-                          !formData.avatar ||
-                          !formData.name.trim()))
-                    }
+                    disabled={loading}
                   >
                     {loading ? '...' : isLogin ? 'Se connecter' : "S'inscrire"}
                   </Button>
@@ -341,11 +341,14 @@ export default function ConnexionPage() {
                       setIsLogin(!isLogin);
                       setError('');
                       setFormData({
+                        lastname: '',
+                        firstname: '',
                         email: '',
                         password: '',
-                        name: '',
-                        needs: '',
-                        specialties: [],
+                        sexe: '',
+                        birthdate: '',
+                        role: '',
+                        SkillsCategory: [],
                         avatar: '',
                       });
                     }}
@@ -356,52 +359,6 @@ export default function ConnexionPage() {
                       : 'Déjà un compte ? Se connecter'}
                   </Button>
                 </div>
-
-                {isLogin && (
-                  <Alert className="mt-4 bg-royal-blue/5 border-royal-blue/20">
-                    <AlertDescription className="text-sm space-y-3">
-                      <div className="font-semibold text-center text-royal-blue">
-                        🎯 Comptes de test avec scénarios :
-                      </div>
-
-                      <div className="space-y-2">
-                        <div className="p-2 bg-royal-blue/10 rounded">
-                          <strong className="text-royal-blue">
-                            👩‍🎓 Rachel (Student) :
-                          </strong>{' '}
-                          rachel@example.com / password
-                          <div className="text-xs text-primary-text/70 dark:text-dark-base-text/70 mt-1">
-                            • 1 demande en attente avec David (à accepter)
-                            <br />• 1 session confirmée avec Jérémie (accès
-                            visio + chat)
-                          </div>
-                        </div>
-
-                        <div className="p-2 bg-success-green/10 rounded">
-                          <strong className="text-success-green">
-                            👨‍💻 Jérémie (Helper) :
-                          </strong>{' '}
-                          jeremie@example.com / password
-                          <div className="text-xs text-primary-text/70 dark:text-dark-base-text/70 mt-1">
-                            • 1 session confirmée avec Rachel (accès visio +
-                            chat)
-                          </div>
-                        </div>
-
-                        <div className="p-2 bg-royal-blue/10 rounded">
-                          <strong className="text-royal-blue">
-                            👨‍💻 David (Helper) :
-                          </strong>{' '}
-                          david@example.com / password
-                          <div className="text-xs text-primary-text/70 dark:text-dark-base-text/70 mt-1">
-                            • 1 demande en attente de Rachel (à
-                            accepter/refuser)
-                          </div>
-                        </div>
-                      </div>
-                    </AlertDescription>
-                  </Alert>
-                )}
               </CardContent>
             </Card>
           </div>

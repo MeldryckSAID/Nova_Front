@@ -3,10 +3,15 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
 
+interface Option {
+  id: number;
+  name: string;
+}
+
 interface MultiSelectProps {
-  options: string[];
-  selected: string[];
-  onChange: (selected: string[]) => void;
+  options: Option[];
+  selected: number[];
+  onChange: (selected: number[]) => void;
   placeholder?: string;
   minSelection?: number;
   maxSelection?: number;
@@ -26,20 +31,18 @@ export function MultiSelect({
 }: MultiSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggleOption = (option: string) => {
-    if (selected.includes(option)) {
-      // Retirer l'option
-      onChange(selected.filter((item) => item !== option));
+  const handleToggleOption = (optionId: number) => {
+    if (selected.includes(optionId)) {
+      onChange(selected.filter((item) => item !== optionId));
     } else {
-      // Ajouter l'option si on n'a pas atteint le maximum
       if (selected.length < maxSelection) {
-        onChange([...selected, option]);
+        onChange([...selected, optionId]);
       }
     }
   };
 
-  const removeOption = (option: string) => {
-    onChange(selected.filter((item) => item !== option));
+  const removeOption = (optionId: number) => {
+    onChange(selected.filter((item) => item !== optionId));
   };
 
   return (
@@ -94,14 +97,14 @@ export function MultiSelect({
         {isOpen && (
           <div className="absolute z-10 w-full mt-1 bg-white dark:bg-blue-gray-dark border border-light-blue-gray/20 dark:border-royal-blue/30 rounded-md shadow-lg max-h-60 overflow-auto">
             {options.map((option) => {
-              const isSelected = selected.includes(option);
+              const isSelected = selected.includes(option.id);
               const isDisabled = !isSelected && selected.length >= maxSelection;
 
               return (
                 <button
-                  key={option}
+                  key={option.id}
                   type="button"
-                  onClick={() => !isDisabled && handleToggleOption(option)}
+                  onClick={() => !isDisabled && handleToggleOption(option.id)}
                   disabled={isDisabled}
                   className={`w-full px-3 py-2 text-left hover:bg-royal-blue/10 dark:hover:bg-royal-blue/20 focus:bg-royal-blue/10 dark:focus:bg-royal-blue/20 flex items-center justify-between transition-colors ${
                     isSelected
@@ -109,7 +112,7 @@ export function MultiSelect({
                       : 'text-primary-text dark:text-dark-base-text'
                   } ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
-                  <span>{option}</span>
+                  <span>{option.name}</span>
                   {isSelected && <span className="text-royal-blue">✓</span>}
                 </button>
               );
@@ -121,21 +124,24 @@ export function MultiSelect({
       {/* Bulles des sélections */}
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-2 p-2 bg-light-blue-gray/10 dark:bg-royal-blue/10 rounded-md max-w-full">
-          {selected.map((option) => (
-            <span
-              key={option}
-              className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-royal-blue text-white border border-royal-blue/20 max-w-full"
-            >
-              <span className="truncate">{option}</span>
-              <button
-                type="button"
-                onClick={() => removeOption(option)}
-                className="ml-2 hover:text-white/80 focus:outline-none"
+          {selected.map((id) => {
+            const option = options.find((opt) => opt.id === id);
+            return (
+              <span
+                key={id}
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-royal-blue text-white border border-royal-blue/20 max-w-full"
               >
-                <X className="w-3 h-3" />
-              </button>
-            </span>
-          ))}
+                <span className="truncate">{option?.name ?? id}</span>
+                <button
+                  type="button"
+                  onClick={() => removeOption(id)}
+                  className="ml-2 hover:text-white/80 focus:outline-none"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </span>
+            );
+          })}
         </div>
       )}
 
